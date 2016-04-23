@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# bash completion, based on docker/contrib/completion/bash/docker
+
+__facet_previous_extglob_setting=$(shopt -p extglob)
+shopt -s extglob
+
+export FACET_DIR=~/.facets
+
+__facet_ls() {
+    ls $FACET_DIR
+}
+
+_facet_facet() {
+    COMPREPLY=( $(compgen -W "${commands[*]}" -- "$cur") )
+}
+
+_facet_ls() {
+    COMPREPLY=( )
+}
+
+_facet_workon() {
+    local completions=$(__facet_ls | tr '\n' ' ')
+    COMPREPLY=( $(compgen -W "$completions" -- "$cur") )
+}
+
+_facet() {
+    local previous_extglob_setting=$(shopt -p extglob)
+    shopt -s extglob
+
+    local commands=(
+        ls
+        workon
+    )
+
+    COMPREPLY=()
+    local cur prev words cword
+    _get_comp_words_by_ref -n : cur prev words cword
+
+    local command='facet' command_pos=0
+    local counter=1
+    while [ $counter -lt $cword ]; do
+      case "${words[$counter]}" in
+          *)
+              command="${words[$counter]}"
+              command_pos=$counter
+              break
+              ;;
+      esac
+      (( counter++ ))
+    done
+
+    local completions_func=_facet_${command}
+
+    declare -F $completions_func >/dev/null && $completions_func
+
+    eval "$previous_extglob_setting"
+    return 0
+}
+
+eval "$__facet_previous_extglob_setting"
+unset __facet_previous_extglob_setting
+
+complete -F _facet facet
