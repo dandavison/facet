@@ -18,7 +18,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'facet = facet.main:main',
+            'facet = facet.cli:main',
         ],
     },
 )

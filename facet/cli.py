@@ -1,50 +1,95 @@
-"""
-Based on docker-compose.
-"""
-from inspect import getdoc
+import os
+import sys
 
-from docopt import docopt
-from docopt import DocoptExit
-
-
-class Dispatcher(object):
-
-    def __init__(self, command, options):
-        self.command = command
-        self.options = options
-
-    def parse(self, argv):
-        command_doc = getdoc(self.command)
-        command_options = _docopt(command_doc, argv, **self.options)
-        sub_command = command_options['COMMAND']
-
-        if sub_command is None:
-            raise SystemExit(command_doc)
-
-        sub_command_handler = getattr(self.command, sub_command)
-        sub_command_doc = getdoc(sub_command_handler)
-
-        if sub_command_doc is None:
-            raise NoSuchCommand(sub_command, self)
-
-        sub_command_options = _docopt(
-            sub_command_doc,
-            command_options['ARGS'],
-            options_first=True,
-        )
-        return sub_command_options, sub_command_handler, command_options
+from facet import settings
+from facet import state
+from facet.cli_dispatch import Dispatcher
+from facet.facet import Facet
 
 
-def _docopt(doc, *args, **kwargs):
-    try:
-        return docopt(doc, *args, **kwargs)
-    except DocoptExit:
-        raise SystemExit(doc)
+class Command:
+    """
+    Switch contexts.
+
+    Usage:
+      facet [options] [COMMAND] [ARGS...]
+      facet -h|--help
+
+    Options:
+      -v, --version      Print version and exit
+
+    Commands:
+      current            Display current facet
+      fetch              Fetch JIRA data for current facet
+      fetch_all          Fetch JIRA data for all facets
+      ls                 List facets
+      workon             Switch to a facet
+    """
+
+    def current(self, options):
+        """
+        Display current facet.
+
+        Usage:
+          current
+        """
+        print(state.read('facet'))
+
+    def fetch(self, options):
+        """
+        Fetch JIRA issue data.
+
+        Usage:
+          fetch
+        """
+        if not facet:
+            facet = Facet(name=state.read('facet'))
+        facet.fetch()
+
+    def fetch_all(self, options):
+        """
+        Fetch JIRA issue data for all facets.
+
+        Usage:
+          fetch
+        """
+        for facet in Facet.get_all():
+            facet.fetch()
+
+    def ls(self, options):
+        """
+        List facets.
+
+        Usage:
+          ls
+        """
+        for name in Facet.get_all_names():
+            print(name)
+
+    def workon(self, options):
+        """
+        Switch to a project
+
+        Usage:
+          workon [FACET]
+        """
+        state.write(facet=options['FACET'])
 
 
-class NoSuchCommand(Exception):
-    def __init__(self, command, supercommand):
-        super(NoSuchCommand, self).__init__("No such command: %s" % command)
+def jira_data_file(project):
+    return os.path.join(settings.FACET_DIR, project, 'jira.json')
 
-        self.command = command
-        self.supercommand = supercommand
+
+def get_version_info():
+    file = os.path.join(os.path.dirname(__file__), 'version.txt')
+    return open(file).read().strip()
+
+
+def main():
+    dispatcher = Dispatcher(
+        Command(),
+        {'options_first': True, 'version': get_version_info()})
+
+    options, handler, command_options = dispatcher.parse(sys.argv[1:])
+
+    handler(options)

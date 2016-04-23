@@ -1,3 +1,5 @@
 clint
 docopt
 ipdb
+pyyaml
+requests

@@ -5,23 +5,48 @@
 __facet_previous_extglob_setting=$(shopt -p extglob)
 shopt -s extglob
 
+# TODO: This is set in python code also
 export FACET_DIR=~/.facets
 
 __facet_ls() {
     ls $FACET_DIR
 }
 
-_facet_facet() {
-    COMPREPLY=( $(compgen -W "${commands[*]}" -- "$cur") )
-}
-
-_facet_ls() {
+__facet_no_completion() {
     COMPREPLY=( )
 }
 
-_facet_workon() {
+__facet_complete_commands() {
+    COMPREPLY=( $(compgen -W "${commands[*]}" -- "$cur") )
+}
+
+__facet_complete_facets() {
     local completions=$(__facet_ls | tr '\n' ' ')
     COMPREPLY=( $(compgen -W "$completions" -- "$cur") )
+}
+
+_facet_current() {
+    __facet_no_completions
+}
+
+_facet_facet() {
+    __facet_complete_commands
+}
+
+_facet_fetch() {
+    __facet_complete_facets
+}
+
+_facet_fetch_all() {
+    __facet_no_completion
+}
+
+_facet_ls() {
+    __facet_no_completion
+}
+
+_facet_workon() {
+    __facet_complete_facets
 }
 
 _facet() {
@@ -29,6 +54,9 @@ _facet() {
     shopt -s extglob
 
     local commands=(
+        current
+        fetch
+        fetch_all
         ls
         workon
     )
