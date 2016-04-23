@@ -14,9 +14,11 @@ facet-create () {
     local project=$1
     -facet-assert-not-valid-project $project || return 1
     mkdir $FACET_DIR/$project
+    mkdir $FACET_DIR/$project/.cache
     echo "\
 name: $project
 jira: $project
+branch: $project
 class: counsyl.website.WebsiteProject" > $FACET_DIR/$project/facet.yaml
 }
 
@@ -68,6 +70,18 @@ facet-jira-summary () {
     facet-jira-json $(-facet-project $1) | jq -C .fields.summary
 }
 
+facet-jira-summary-all () {
+    facet-for-each facet-jira-summary
+}
+
+facet-jira-status () {
+    facet-jira-json $(-facet-project $1) | jq -C .fields.status.name
+}
+
+facet-jira-status-all () {
+    facet-for-each facet-jira-status
+}
+
 facet-config () {
     cat $FACET_DIR/$(-facet-project $1)/facet.yaml
 }
@@ -97,7 +111,7 @@ y2j () {
 }
 
 -facet-jira-json-file () {
-    echo $FACET_DIR/$(-facet-project $1)/jira.json
+    echo $FACET_DIR/$(-facet-project $1)/.cache/jira.json
 }
 
 -facet-assert-current-project () {
@@ -138,7 +152,7 @@ y2j () {
 
 -facet-complete-projects() {
     local input=${COMP_WORDS[COMP_CWORD]}
-    local completions=$(ls $FACET_DIR | tr '\n' ' ')
+    local completions=$(facet-ls | tr '\n' ' ')
     COMPREPLY=( $(compgen -W "$completions" -- $input) )
 }
 complete -F -facet-complete-projects facet-workon
