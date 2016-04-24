@@ -1,10 +1,10 @@
 import json
 from os import path
 
-from facet.settings import FACET_DIR
+from facet import settings
 
 
-_FILE = path.join(FACET_DIR, ".state")
+_FILE = path.join(settings.FACET_DIR, ".state")
 
 
 def read(key=None):

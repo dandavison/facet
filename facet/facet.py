@@ -37,7 +37,7 @@ class Facet:
 
     @staticmethod
     def get_all_names():
-        for name in sorted(listdir(settings.FACET_DIR)):
+        for name in sorted(listdir(settings.FACETS_DIR)):
             if not name.startswith('.'):
                 yield name
 
@@ -82,7 +82,7 @@ class Facet:
 
     @property
     def directory(self):
-        return path.join(settings.FACET_DIR, self.name)
+        return path.join(settings.FACETS_DIR, self.name)
 
     @property
     def config_file(self):

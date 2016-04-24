@@ -14,6 +14,11 @@ def dump_yaml(obj, fp):
     yaml.dump(obj, fp, indent=2, default_flow_style=False)
 
 
+def prompt_for_user_input(prompt, default=None):
+    prompt = '{prompt} [{default}]: '.format(prompt=prompt, default=default)
+    return input(prompt) or default
+
+
 class memoized:
 
     def __init__(self, fn):

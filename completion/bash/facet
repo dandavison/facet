@@ -6,10 +6,10 @@ __facet_previous_extglob_setting=$(shopt -p extglob)
 shopt -s extglob
 
 # TODO: This is set in python code also
-export FACET_DIR=~/.facets
+export FACETS_DIR=~/.facet/facets
 
 __facet_ls() {
-    ls $FACET_DIR
+    ls $FACETS_DIR
 }
 
 __facet_complete_commands() {

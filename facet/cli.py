@@ -8,6 +8,7 @@ import json
 from facet import settings
 from facet.cli_dispatch import Dispatcher
 from facet.facet import Facet
+from facet.utils import prompt_for_user_input
 
 
 class Command:
@@ -75,15 +76,21 @@ class Command:
         Create a facet for a JIRA issue.
 
         Usage:
-          create JIRA_ISSUE
+          create NAME
         """
-        facet = Facet(name=options['JIRA_ISSUE'])
+        facet = Facet(name=options['NAME'])
+        jira_issue = prompt_for_user_input('JIRA issue')
+        repo = prompt_for_user_input('Git repo', settings.DEFAULT_REPO)
+        branch = prompt_for_user_input('Branch', facet.name)
+
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
         os.mkdir(facet.directory)
         facet.write_config({
-            'name': self.name,
-            'branch': self.name,
+            'name': facet.name,
+            'repo': repo,
+            'branch': branch,
+            'jira': jira_issue,
         })
         facet.fetch()
         print(facet.colored_by_state(facet.name))
@@ -211,7 +218,7 @@ class Command:
 
 
 def jira_data_file(project):
-    return os.path.join(settings.FACET_DIR, project, 'jira.json')
+    return os.path.join(settings.FACETS_DIR, project, 'jira.json')
 
 
 def get_version_info():
