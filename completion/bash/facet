@@ -25,6 +25,10 @@ _facet_cd() {
     __facet_complete_facets
 }
 
+_facet_edit() {
+    __facet_complete_facets
+}
+
 _facet_facet() {
     __facet_complete_commands
 }
@@ -49,6 +53,7 @@ _facet() {
         cd
         create
         current
+        edit
         fetch
         fetch-all
         ls

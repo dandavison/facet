@@ -20,6 +20,7 @@ class Command:
     Commands:
       create             Create a facet for a JIRA issue
       current            Display facet
+      edit               Edit facet
       fetch              Fetch JIRA data for facet
       fetch-all          Fetch JIRA data for all facets
       ls                 List facets
@@ -63,6 +64,17 @@ class Command:
         """
         facet = Facet.get_current()
         print(facet.colored_by_state(facet.name))
+
+    def edit(self, options):
+        """
+        Edit facet
+
+        Usage:
+          edit [FACET]
+        """
+        facet = self._get_facet(options)
+        os.execl('/bin/bash',
+                 '/bin/bash', '-c', '$EDITOR %s' % facet.directory)
 
     def fetch(self, options):
         """
