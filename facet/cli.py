@@ -19,6 +19,7 @@ class Command:
       -v, --version      Print version and exit
 
     Commands:
+      cd                 cd to facet directory
       create             Create a facet for a JIRA issue
       current            Display facet
       edit               Edit facet
@@ -32,13 +33,13 @@ class Command:
 
     def cd(self, options):
         """
-        Change to facet directory.
+        cd to facet directory.
 
         Usage:
-          cd
+          cd [FACET]
         """
-        directory = self._get_facet(options).directory
-        os.chdir(directory)
+        facet = self._get_facet(options)
+        os.chdir(facet.directory)
         os.execl('/bin/bash', '/bin/bash')
 
     def create(self, options):
