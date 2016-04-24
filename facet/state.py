@@ -16,7 +16,7 @@ def read(key=None):
             raise
         else:
             state = {}
-    return state[key] if key else state
+    return state[key] if key is not None else state
 
 
 def write(**kwargs):
