@@ -32,7 +32,7 @@ class JiraIssue:
     def status(self):
         return JIRA_STATUS2STATUS[self.jira_status]
 
-    def colored(self, string):
+    def colored_by_state(self, string):
         color_fn = {
             Status.todo: None,
             Status.doing: colored.red,

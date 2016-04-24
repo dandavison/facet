@@ -65,8 +65,8 @@ class Facet:
         with open(self.jira_data_file) as fp:
             return JiraIssue(json.load(fp))
 
-    def colored(self, string):
-        return self.jira_issue.colored(string)
+    def colored_by_state(self, string):
+        return self.jira_issue.colored_by_state(string)
 
     def __repr__(self):
         return "💎  {name}".format(name=self.name)
