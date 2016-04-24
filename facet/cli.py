@@ -97,7 +97,7 @@ class Command:
         os.mkdir(facet.directory)
         facet.write_config(config)
         facet.fetch()
-        print(facet.colored_by_state(facet.name))
+        print(facet.style(facet.name))
 
     def current(self, options):
         """
@@ -107,7 +107,7 @@ class Command:
           current
         """
         facet = Facet.get_current()
-        print(facet.colored_by_state(facet.name))
+        print(facet.style(facet.name))
 
     def edit(self, options):
         """
@@ -129,7 +129,7 @@ class Command:
         """
         facet = self._get_facet(options)
         facet.fetch()
-        print(facet.colored_by_state(facet.name))
+        print(facet.style(facet.name))
 
     def fetch_all(self, options):
         """
@@ -140,7 +140,7 @@ class Command:
         """
         for facet in Facet.get_all():
             facet.fetch()
-            print(facet.colored_by_state(facet.name))
+            print(facet.style(facet.name))
 
     def ls(self, options):
         """
@@ -150,7 +150,7 @@ class Command:
           ls
         """
         for facet in Facet.get_all():
-            print(facet.colored_by_state(facet.name))
+            print(facet.style(facet.name))
 
     def migrate(self, options, facet=None):
         """

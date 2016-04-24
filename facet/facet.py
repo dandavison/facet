@@ -9,6 +9,7 @@ import yaml
 from facet import settings
 from facet import state
 from facet.jira import JiraIssue
+from facet.utils import default_color
 from facet.utils import dump_json
 from facet.utils import dump_yaml
 from facet.utils import get_auth
@@ -69,10 +70,12 @@ class Facet:
 
     def format_summary(self):
         if self.jira:
-            return '%s %s' % (self.colored_by_state(self.name),
-                              self.jira_issue.summary)
+            return '{name} {summary}'.format(
+                name=self.style(self.name),
+                summary=self.style(self.jira_issue.summary,
+                                   color=False))
         else:
-            return self.colored_by_state(self.name)
+            return self.style(self.name)
 
     @property
     def jira_url(self):
@@ -122,7 +125,13 @@ class Facet:
     def repo(self):
         return path.expanduser(self.read_config('repo'))
 
-    def colored_by_state(self, string):
-        if not self.jira:
-            return string
-        return self.jira_issue.colored_by_state(string)
+    def style(self, string, color=True):
+        is_current = self == self.get_current()
+        if not color or not self.jira:
+            style_function = default_color
+        else:
+            style_function = self.jira_issue.get_style_function()
+        return style_function(string, bold=is_current)
+
+    def __eq__(self, other):
+        return self.name == other.name

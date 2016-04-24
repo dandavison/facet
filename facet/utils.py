@@ -1,7 +1,9 @@
 import getpass
 import json
+import sys
 
 import yaml
+from clint.textui.colored import colorama
 
 from facet import settings
 
@@ -56,3 +58,13 @@ def get_auth():
         auth['password'] = getpass.getpass("JIRA password: ")
 
     return auth
+
+
+def default_color(s, always=False, bold=False):
+    if bold and (always or sys.stdout.isatty()):
+        return '{on}{string}{off}'.format(
+            on=getattr(colorama.Style, 'BRIGHT'),
+            string=s,
+            off=getattr(colorama.Style, 'NORMAL'))
+    else:
+        return s
