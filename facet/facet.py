@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from os import listdir
 from os import path
 
@@ -6,6 +7,7 @@ import requests
 
 from facet import settings
 from facet import state
+from facet.jira import JiraIssue
 from facet.utils import dump_json
 from facet.utils import get_auth
 
@@ -51,6 +53,13 @@ class Facet:
     @property
     def jira_data_file(self):
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
+
+    @property
+    def jira_data(self):
+        if not path.exists(self.jira_data_file):
+            self.fetch()
+        with open(self.jira_data_file) as fp:
+            return JiraIssue(json.load(fp))
 
     def __repr__(self):
         return "💎  {name}".format(name=self.name)

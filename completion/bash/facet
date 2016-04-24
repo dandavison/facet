@@ -58,6 +58,7 @@ _facet() {
         fetch
         fetch_all
         ls
+        summary
         workon
     )
 

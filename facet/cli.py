@@ -23,6 +23,7 @@ class Command:
       fetch              Fetch JIRA data for current facet
       fetch_all          Fetch JIRA data for all facets
       ls                 List facets
+      summary            Display issue summary
       workon             Switch to a facet
     """
 
@@ -67,6 +68,15 @@ class Command:
         """
         for name in Facet.get_all_names():
             print(name)
+
+    def summary(self, options):
+        """
+        Display issue summary.
+
+        Usage:
+          summary
+        """
+        print(Facet.get_current().jira_data.summary)
 
     def workon(self, options):
         """
