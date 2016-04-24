@@ -44,8 +44,9 @@ class Facet:
 
     @property
     def jira_url(self):
-        return ("https://{username}:{password}@jira.counsyl.com"
+        return ("https://{username}:{password}@{host}"
                 "/rest/api/latest/issue/{issue}".format(
+                    host=settings.JIRA_HOST,
                     issue=self.name,
                     **get_auth()
                 ))
