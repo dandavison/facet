@@ -19,8 +19,8 @@ class Command:
 
     Commands:
       create             Create a facet for a JIRA issue
-      current            Display current facet
-      fetch              Fetch JIRA data for current facet
+      current            Display facet
+      fetch              Fetch JIRA data for facet
       fetch-all          Fetch JIRA data for all facets
       ls                 List facets
       summary            Display issue summary
