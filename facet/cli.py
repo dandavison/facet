@@ -69,14 +69,26 @@ class Command:
         for name in Facet.get_all_names():
             print(name)
 
-    def summary(self, options):
+    def summary(self, options=None, facet=None):
         """
         Display issue summary.
 
         Usage:
           summary
         """
-        print(Facet.get_current().jira_data.summary)
+        if not facet:
+            facet = Facet.get_current()
+        print(facet.jira_data.summary)
+
+    def summary_all(self, options):
+        """
+        Display all issue summaries.
+
+        Usage:
+          summary_all
+        """
+        for facet in Facet.get_all():
+            self.summary(facet=facet)
 
     def workon(self, options):
         """
