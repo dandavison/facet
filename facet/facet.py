@@ -4,6 +4,7 @@ from os import listdir
 from os import path
 
 import requests
+import yaml
 
 from facet import settings
 from facet import state
@@ -13,7 +14,7 @@ from facet.utils import dump_yaml
 from facet.utils import get_auth
 
 
-_FACET_CONFIG_FILE_NAME = 'facet.yaml'
+_CONFIG_FILE_NAME = 'facet.yaml'
 _JIRA_DATA_FILE_NAME = 'jira.json'
 
 
@@ -43,12 +44,13 @@ class Facet:
     def exists(self):
         return self.name in self.get_all_names()
 
-    def write_initial_facet_config(self):
-        config = {
-            'name': self.name,
-            'branch': self.name,
-        }
-        with open(self.facet_config_file, 'w') as fp:
+    def read_config(self, key=None):
+        with open(self.config_file) as fp:
+            config = yaml.load(fp)
+        return config[key] if key is not None else config
+
+    def write_config(self, config):
+        with open(self.config_file, 'w') as fp:
             dump_yaml(config, fp)
 
     def fetch(self):
@@ -77,8 +79,8 @@ class Facet:
         return path.join(settings.FACET_DIR, self.name)
 
     @property
-    def facet_config_file(self):
-        return path.join(self.directory, _FACET_CONFIG_FILE_NAME)
+    def config_file(self):
+        return path.join(self.directory, _CONFIG_FILE_NAME)
 
     @property
     def jira_data_file(self):

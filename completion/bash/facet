@@ -25,6 +25,10 @@ _facet_cd() {
     __facet_complete_facets
 }
 
+_facet_checkout() {
+    __facet_complete_facets
+}
+
 _facet_edit() {
     __facet_complete_facets
 }
@@ -55,6 +59,7 @@ _facet() {
 
     local commands=(
         cd
+        checkout
         create
         current
         edit

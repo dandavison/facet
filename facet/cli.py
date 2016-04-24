@@ -53,7 +53,10 @@ class Command:
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
         os.mkdir(facet.directory)
-        facet.write_initial_facet_config()
+        facet.write_config({
+            'name': self.name,
+            'branch': self.name,
+        })
         facet.fetch()
         print(facet.colored_by_state(facet.name))
 
