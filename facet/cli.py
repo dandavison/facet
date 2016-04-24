@@ -90,7 +90,7 @@ class Command:
         """
         if not facet:
             facet = Facet.get_current()
-        print(facet.colored(facet.jira_issue.summary))
+        print('%s %s' % (facet.colored(facet.name), facet.jira_issue.summary))
 
     def summary_all(self, options):
         """
