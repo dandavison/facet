@@ -27,6 +27,17 @@ class Command:
       workon             Switch to a facet
     """
 
+    def cd(self, options):
+        """
+        Change to facet directory.
+
+        Usage:
+          cd
+        """
+        directory = Facet.get_current().directory
+        os.chdir(directory)
+        os.execl('/bin/bash', '/bin/bash')
+
     def current(self, options):
         """
         Display current facet.

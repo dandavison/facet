@@ -54,6 +54,7 @@ _facet() {
     shopt -s extglob
 
     local commands=(
+        cd
         current
         fetch
         fetch_all
