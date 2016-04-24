@@ -2,6 +2,7 @@ import json
 from os import path
 
 from facet import settings
+from facet.utils import dump_json
 
 
 _FILE = path.join(settings.FACET_DIR, ".state")
@@ -23,4 +24,4 @@ def write(**kwargs):
     state = read()
     state.update(kwargs)
     with open(_FILE, 'w') as fp:
-        return json.dump(state, fp, indent=2, sort_keys=True)
+        return dump_json(state, fp)
