@@ -57,10 +57,10 @@ _facet() {
         cd
         current
         fetch
-        fetch_all
+        fetch-all
         ls
         summary
-        summary_all
+        summary-all
         workon
     )
 

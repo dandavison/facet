@@ -21,9 +21,10 @@ class Command:
     Commands:
       current            Display current facet
       fetch              Fetch JIRA data for current facet
-      fetch_all          Fetch JIRA data for all facets
+      fetch-all          Fetch JIRA data for all facets
       ls                 List facets
       summary            Display issue summary
+      summary-all        Display all issue summaries
       workon             Switch to a facet
     """
 

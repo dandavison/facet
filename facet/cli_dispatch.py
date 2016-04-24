@@ -21,7 +21,8 @@ class Dispatcher(object):
         if sub_command is None:
             raise SystemExit(command_doc)
 
-        sub_command_handler = getattr(self.command, sub_command)
+        sub_command_handler = getattr(self.command,
+                                      sub_command.replace('-', '_'))
         sub_command_doc = getdoc(sub_command_handler)
 
         if sub_command_doc is None:
