@@ -47,7 +47,7 @@ class Facet:
     def read_config(self, key=None):
         with open(self.config_file) as fp:
             config = yaml.load(fp)
-        return config[key] if key is not None else config
+        return config.get(key) if key is not None else config
 
     def write_config(self, config):
         with open(self.config_file, 'w') as fp:
@@ -60,8 +60,19 @@ class Facet:
         self.write_config(config)
 
     def fetch(self):
+        if not self.jira:
+            return
+        resp = requests.get(self.jira_json_url)
+        resp.raise_for_status()
         with open(self.jira_data_file, 'w') as fp:
-            dump_json(requests.get(self.jira_json_url).json(), fp)
+            dump_json(resp.json(), fp)
+
+    def format_summary(self):
+        if self.jira:
+            return '%s %s' % (self.colored_by_state(self.name),
+                              self.jira_issue.summary)
+        else:
+            return self.colored_by_state(self.name)
 
     @property
     def jira_url(self):
@@ -93,6 +104,10 @@ class Facet:
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
 
     @property
+    def jira(self):
+        return self.read_config('jira')
+
+    @property
     def jira_issue(self):
         if not path.exists(self.jira_data_file):
             self.fetch()
@@ -108,4 +123,6 @@ class Facet:
         return path.expanduser(self.read_config('repo'))
 
     def colored_by_state(self, string):
+        if not self.jira:
+            return string
         return self.jira_issue.colored_by_state(string)
