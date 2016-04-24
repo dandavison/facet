@@ -8,17 +8,13 @@ shopt -s extglob
 # TODO: This is set in python code also
 export FACETS_DIR=~/.facet/facets
 
-__facet_ls() {
-    ls $FACETS_DIR
-}
-
 __facet_complete_commands() {
     COMPREPLY=( $(compgen -W "${commands[*]}" -- "$cur") )
 }
 
 __facet_complete_facets() {
-    local completions=$(__facet_ls | tr '\n' ' ')
-    COMPREPLY=( $(compgen -W "$completions" -- "$cur") )
+    local facets=$(ls $FACETS_DIR | tr '\n' ' ')
+    COMPREPLY=( $(compgen -W "$facets" -- "$cur") )
 }
 
 _facet_cd-facet() {
