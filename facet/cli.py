@@ -18,6 +18,7 @@ class Command:
       -v, --version      Print version and exit
 
     Commands:
+      create             Create a facet for a JIRA issue
       current            Display current facet
       fetch              Fetch JIRA data for current facet
       fetch-all          Fetch JIRA data for all facets
@@ -37,6 +38,21 @@ class Command:
         directory = self._get_facet(options).directory
         os.chdir(directory)
         os.execl('/bin/bash', '/bin/bash')
+
+    def create(self, options):
+        """
+        Create a facet for a JIRA issue.
+
+        Usage:
+          create JIRA_ISSUE
+        """
+        facet = Facet(name=options['JIRA_ISSUE'])
+        if facet.exists():
+            raise ValueError("Facet already exists: '%s'" % facet.name)
+        os.mkdir(facet.directory)
+        facet.write_initial_facet_config()
+        facet.fetch()
+        print(facet.colored_by_state(facet.name))
 
     def current(self, options):
         """

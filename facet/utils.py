@@ -10,6 +10,10 @@ def dump_json(obj, fp):
     json.dump(obj, fp, indent=2, sort_keys=True)
 
 
+def dump_yaml(obj, fp):
+    yaml.dump(obj, fp, indent=2, default_flow_style=False)
+
+
 class memoized:
 
     def __init__(self, fn):

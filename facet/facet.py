@@ -9,9 +9,11 @@ from facet import settings
 from facet import state
 from facet.jira import JiraIssue
 from facet.utils import dump_json
+from facet.utils import dump_yaml
 from facet.utils import get_auth
 
 
+_FACET_CONFIG_FILE_NAME = 'facet.yaml'
 _JIRA_DATA_FILE_NAME = 'jira.json'
 
 
@@ -38,6 +40,17 @@ class Facet:
             if not name.startswith('.'):
                 yield name
 
+    def exists(self):
+        return self.name in self.get_all_names()
+
+    def write_initial_facet_config(self):
+        config = {
+            'name': self.name,
+            'branch': self.name,
+        }
+        with open(self.facet_config_file, 'w') as fp:
+            dump_yaml(config, fp)
+
     def fetch(self):
         with open(self.jira_data_file, 'w') as fp:
             dump_json(requests.get(self.jira_url).json(), fp)
@@ -54,6 +67,10 @@ class Facet:
     @property
     def directory(self):
         return path.join(settings.FACET_DIR, self.name)
+
+    @property
+    def facet_config_file(self):
+        return path.join(self.directory, _FACET_CONFIG_FILE_NAME)
 
     @property
     def jira_data_file(self):

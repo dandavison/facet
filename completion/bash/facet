@@ -47,6 +47,7 @@ _facet() {
 
     local commands=(
         cd
+        create
         current
         fetch
         fetch-all
