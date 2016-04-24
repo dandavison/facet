@@ -2,6 +2,8 @@ import os
 import sys
 import webbrowser
 
+import json
+
 from facet import settings
 from facet.cli_dispatch import Dispatcher
 from facet.facet import Facet
@@ -112,6 +114,28 @@ class Command:
         """
         for facet in Facet.get_all():
             print(facet.colored_by_state(facet.name))
+
+    def migrate(self, options, facet=None):
+        """
+        Migrate facet.
+
+        Usage:
+          migrate FACET PATCH
+        """
+        if not facet:
+            facet = self._get_facet(options)
+        patch = json.loads(options['PATCH'])
+        facet.apply_patch(patch)
+
+    def migrate_all(self, options):
+        """
+        Migrate all facets.
+
+        Usage:
+          migrate_all PATCH
+        """
+        for facet in Facet.get_all():
+            self.migrate(options, facet=facet)
 
     def open_jira(self, options):
         """

@@ -53,6 +53,12 @@ class Facet:
         with open(self.config_file, 'w') as fp:
             dump_yaml(config, fp)
 
+    def apply_patch(self, patch):
+        # TODO: deep dicts
+        config = patch.copy()
+        config.update(self.read_config())
+        self.write_config(config)
+
     def fetch(self):
         with open(self.jira_data_file, 'w') as fp:
             dump_json(requests.get(self.jira_json_url).json(), fp)
