@@ -67,6 +67,3 @@ class Facet:
 
     def colored_by_state(self, string):
         return self.jira_issue.colored_by_state(string)
-
-    def __repr__(self):
-        return "💎  {name}".format(name=self.name)

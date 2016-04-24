@@ -45,7 +45,8 @@ class Command:
         Usage:
           current
         """
-        print(Facet.get_current())
+        facet = Facet.get_current()
+        print(facet.colored_by_state(facet.name))
 
     def fetch(self, options):
         """
@@ -56,7 +57,7 @@ class Command:
         """
         facet = self._get_facet()
         facet.fetch()
-        print(facet)
+        print(facet.colored_by_state(facet.name))
 
     def fetch_all(self, options):
         """
@@ -67,7 +68,7 @@ class Command:
         """
         for facet in Facet.get_all():
             facet.fetch()
-            print(facet)
+            print(facet.colored_by_state(facet.name))
 
     def ls(self, options):
         """
@@ -76,8 +77,8 @@ class Command:
         Usage:
           ls
         """
-        for name in Facet.get_all_names():
-            print(name)
+        for facet in Facet.get_all():
+            print(facet.colored_by_state(facet.name))
 
     def summary(self, options, facet=None):
         """
