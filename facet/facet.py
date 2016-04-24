@@ -99,5 +99,13 @@ class Facet:
         with open(self.jira_data_file) as fp:
             return JiraIssue(json.load(fp))
 
+    @property
+    def branch(self):
+        return self.read_config('branch')
+
+    @property
+    def repo(self):
+        return path.expanduser(self.read_config('repo'))
+
     def colored_by_state(self, string):
         return self.jira_issue.colored_by_state(string)

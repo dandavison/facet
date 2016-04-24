@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import webbrowser
 
@@ -42,6 +43,18 @@ class Command:
         """
         facet = self._get_facet(options)
         os.chdir(facet.directory)
+        os.execl('/bin/bash', '/bin/bash')
+
+    def checkout(self, options):
+        """
+        cd to facet repo and checkout facet branch.
+
+        Usage:
+          checkout [FACET]
+        """
+        facet = self._get_facet(options)
+        os.chdir(facet.repo)
+        subprocess.check_call(['git', 'checkout', facet.branch])
         os.execl('/bin/bash', '/bin/bash')
 
     def create(self, options):
