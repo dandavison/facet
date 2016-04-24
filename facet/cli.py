@@ -22,7 +22,8 @@ class Command:
       -v, --version      Print version and exit
 
     Commands:
-      cd                 cd to facet directory
+      cd-facet           cd to facet directory
+      cd-repo            cd to facet repo
       create             Create a facet for a JIRA issue
       current            Display facet
       edit               Edit facet
@@ -34,15 +35,27 @@ class Command:
       workon             Switch to a facet
     """
 
-    def cd(self, options):
+    def cd_facet(self, options):
         """
         cd to facet directory.
 
         Usage:
-          cd [FACET]
+          cd-facet [FACET]
         """
+        self._cd('directory', options)
+
+    def cd_repo(self, options):
+        """
+        cd to facet git repo.
+
+        Usage:
+          cd-repo [FACET]
+        """
+        self._cd('repo', options)
+
+    def _cd(self, directory_attr, options):
         facet = self._get_facet(options)
-        os.chdir(facet.directory)
+        os.chdir(getattr(facet, directory_attr))
         os.execl('/bin/bash', '/bin/bash')
 
     def checkout(self, options):
