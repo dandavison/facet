@@ -55,11 +55,14 @@ class Facet:
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
 
     @property
-    def jira_data(self):
+    def jira_issue(self):
         if not path.exists(self.jira_data_file):
             self.fetch()
         with open(self.jira_data_file) as fp:
             return JiraIssue(json.load(fp))
+
+    def colored(self, string):
+        return self.jira_issue.colored(string)
 
     def __repr__(self):
         return "💎  {name}".format(name=self.name)
