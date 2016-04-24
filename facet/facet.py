@@ -56,6 +56,14 @@ class Facet:
             dump_json(requests.get(self.jira_json_url).json(), fp)
 
     @property
+    def jira_url(self):
+        return ("https://{host}"
+                "/browse/{issue}".format(
+                    host=settings.JIRA_HOST,
+                    issue=self.name,
+                ))
+
+    @property
     def jira_json_url(self):
         return ("https://{username}:{password}@{host}"
                 "/rest/api/latest/issue/{issue}".format(

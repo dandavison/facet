@@ -1,5 +1,6 @@
 import os
 import sys
+import webbrowser
 
 from facet import settings
 from facet.cli_dispatch import Dispatcher
@@ -107,6 +108,16 @@ class Command:
         """
         for facet in Facet.get_all():
             print(facet.colored_by_state(facet.name))
+
+    def open_jira(self, options):
+        """
+        Open JIRA issue
+
+        Usage:
+          open-jira [FACET]
+        """
+        facet = self._get_facet(options)
+        webbrowser.open(facet.jira_url)
 
     def summary(self, options, facet=None):
         """

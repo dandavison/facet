@@ -37,6 +37,10 @@ _facet_fetch() {
     __facet_complete_facets
 }
 
+_facet_open-jira() {
+    __facet_complete_facets
+}
+
 _facet_summary() {
     __facet_complete_facets
 }
@@ -57,6 +61,7 @@ _facet() {
         fetch
         fetch-all
         ls
+        open-jira
         summary
         summary-all
         workon
