@@ -21,4 +21,10 @@ setup(
             'facet = facet.cli:main',
         ],
     },
+    install_requires=[
+        'clint',
+        'docopt',
+        'pyyaml',
+        'requests',
+    ],
 )
