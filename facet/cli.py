@@ -2,7 +2,6 @@ import os
 import sys
 
 from facet import settings
-from facet import state
 from facet.cli_dispatch import Dispatcher
 from facet.facet import Facet
 
@@ -35,7 +34,7 @@ class Command:
         Usage:
           cd
         """
-        directory = Facet.get_current().directory
+        directory = self._get_facet(options).directory
         os.chdir(directory)
         os.execl('/bin/bash', '/bin/bash')
 
@@ -46,7 +45,7 @@ class Command:
         Usage:
           current
         """
-        print(state.read('facet'))
+        print(Facet.get_current())
 
     def fetch(self, options):
         """
@@ -55,8 +54,7 @@ class Command:
         Usage:
           fetch
         """
-        if not facet:
-            facet = Facet(name=state.read('facet'))
+        facet = self._get_facet()
         facet.fetch()
         print(facet)
 
@@ -81,15 +79,15 @@ class Command:
         for name in Facet.get_all_names():
             print(name)
 
-    def summary(self, options=None, facet=None):
+    def summary(self, options, facet=None):
         """
         Display issue summary.
 
         Usage:
-          summary
+          summary [FACET]
         """
         if not facet:
-            facet = Facet.get_current()
+            facet = self._get_facet(options)
         print('%s %s' % (facet.colored(facet.name), facet.jira_issue.summary))
 
     def summary_all(self, options):
@@ -100,16 +98,21 @@ class Command:
           summary_all
         """
         for facet in Facet.get_all():
-            self.summary(facet=facet)
+            self.summary(options, facet=facet)
 
     def workon(self, options):
         """
         Switch to a project
 
         Usage:
-          workon [FACET]
+          workon FACET
         """
-        state.write(facet=options['FACET'])
+        facet = Facet(name=options['FACET'])
+        Facet.set_current(facet)
+
+    def _get_facet(self, options):
+        name = options.get('FACET')
+        return Facet(name=name) if name else Facet.get_current()
 
 
 def jira_data_file(project):

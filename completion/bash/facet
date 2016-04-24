@@ -21,11 +21,19 @@ __facet_complete_facets() {
     COMPREPLY=( $(compgen -W "$completions" -- "$cur") )
 }
 
+_facet_cd() {
+    __facet_complete_facets
+}
+
 _facet_facet() {
     __facet_complete_commands
 }
 
 _facet_fetch() {
+    __facet_complete_facets
+}
+
+_facet_summary() {
     __facet_complete_facets
 }
 

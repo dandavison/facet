@@ -23,6 +23,10 @@ class Facet:
     def get_current(cls):
         return cls(name=state.read('facet'))
 
+    @staticmethod
+    def set_current(facet):
+        state.write(facet=facet.name)
+
     @classmethod
     def get_all(cls):
         for name in cls.get_all_names():
