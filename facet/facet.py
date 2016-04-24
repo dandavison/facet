@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os import listdir
 from os import path
 
@@ -50,3 +51,6 @@ class Facet:
     @property
     def jira_data_file(self):
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
+
+    def __repr__(self):
+        return "💎  {name}".format(name=self.name)

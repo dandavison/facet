@@ -45,6 +45,7 @@ class Command:
         if not facet:
             facet = Facet(name=state.read('facet'))
         facet.fetch()
+        print(facet)
 
     def fetch_all(self, options):
         """
@@ -55,6 +56,7 @@ class Command:
         """
         for facet in Facet.get_all():
             facet.fetch()
+            print(facet)
 
     def ls(self, options):
         """
