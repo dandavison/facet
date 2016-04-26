@@ -65,7 +65,7 @@ class Command:
         facet = self._get_facet(options)
         os.chdir(facet.repo)
         subprocess.check_call(['git', 'checkout', facet.branch])
-        os.execv('/bin/bash', ('/bin/bash',))
+        self._cd(facet.repo)
 
     def config(self, options):
         """
