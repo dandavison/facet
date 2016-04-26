@@ -1,5 +1,6 @@
 import getpass
 import json
+import os
 import sys
 
 import yaml
@@ -19,6 +20,20 @@ def dump_yaml(obj, fp):
 def prompt_for_user_input(prompt, default=None):
     prompt = '{prompt} [{default}]: '.format(prompt=prompt, default=default)
     return input(prompt) or default
+
+
+def append_to_prompt_commands_file(text):
+    if settings.PROMPT_COMMANDS_FILE:
+        with open(settings.PROMPT_COMMANDS_FILE, 'a') as fp:
+            fp.write(text)
+        return True
+    return False
+
+
+def delete_prompt_commands_file():
+    prompt_commands_file = settings.PROMPT_COMMANDS_FILE
+    if prompt_commands_file and os.path.exists(prompt_commands_file):
+        os.remove(prompt_commands_file)
 
 
 class memoized:

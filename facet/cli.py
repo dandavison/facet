@@ -8,6 +8,8 @@ import json
 from facet import settings
 from facet.cli_dispatch import Dispatcher
 from facet.facet import Facet
+from facet.utils import append_to_prompt_commands_file
+from facet.utils import delete_prompt_commands_file
 from facet.utils import prompt_for_user_input
 
 
@@ -43,7 +45,8 @@ class Command:
         Usage:
           cd-facet [FACET]
         """
-        self._cd('directory', options)
+        facet = self._get_facet(options)
+        self._cd(facet.directory, options)
 
     def cd_repo(self, options):
         """
@@ -52,12 +55,15 @@ class Command:
         Usage:
           cd-repo [FACET]
         """
-        self._cd('repo', options)
-
-    def _cd(self, directory_attr, options):
         facet = self._get_facet(options)
-        os.chdir(getattr(facet, directory_attr))
-        os.execv('/bin/bash', ('/bin/bash',))
+        self._cd(facet.repo, options)
+
+    def _cd(self, directory, options):
+        if append_to_prompt_commands_file('cd %s\n' % directory):
+            sys.exit(0)
+        else:
+            os.chdir(directory)
+            os.execv('/bin/bash', ('/bin/bash',))
 
     def checkout(self, options):
         """
@@ -230,6 +236,7 @@ def get_version_info():
 
 
 def main():
+    delete_prompt_commands_file()
     dispatcher = Dispatcher(
         Command(),
         {'options_first': True, 'version': get_version_info()})
