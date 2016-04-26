@@ -46,9 +46,9 @@ class Command:
           cd [FACET]
         """
         facet = self._get_facet(options)
-        self._cd(facet.directory, options)
+        self._cd(facet.directory)
 
-    def _cd(self, directory, options):
+    def _cd(self, directory):
         if append_to_prompt_commands_file('cd %s\n' % directory):
             sys.exit(0)
         else:
