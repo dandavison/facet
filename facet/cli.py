@@ -27,6 +27,7 @@ class Command:
     Commands:
       cd-facet           cd to facet directory
       cd-repo            cd to facet repo
+      checkout           cd to facet repo and checkout facet branch
       config             Display facet config
       create             Create a facet for a JIRA issue
       edit               Edit facet
