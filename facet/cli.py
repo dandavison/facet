@@ -25,6 +25,7 @@ class Command:
     Commands:
       cd-facet           cd to facet directory
       cd-repo            cd to facet repo
+      config             Display facet config
       create             Create a facet for a JIRA issue
       edit               Edit facet
       fetch              Fetch JIRA data for facet
@@ -69,6 +70,16 @@ class Command:
         os.chdir(facet.repo)
         subprocess.check_call(['git', 'checkout', facet.branch])
         os.execl('/bin/bash', '/bin/bash')
+
+    def config(self, options):
+        """
+        Display facet config
+
+        Usage:
+          config [FACET]
+        """
+        facet = self._get_facet(options)
+        sys.stdout.write(open(facet.config_file).read())
 
     def create(self, options):
         """

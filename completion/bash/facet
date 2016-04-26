@@ -29,6 +29,10 @@ _facet_checkout() {
     __facet_complete_facets
 }
 
+_facet_config() {
+    __facet_complete_facets
+}
+
 _facet_edit() {
     __facet_complete_facets
 }
@@ -65,6 +69,7 @@ _facet() {
         cd-facet
         cd-repo
         checkout
+        config
         create
         edit
         fetch
