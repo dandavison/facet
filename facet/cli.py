@@ -26,7 +26,6 @@ class Command:
 
     Commands:
       cd                 cd to facet directory
-      cd-repo            cd to facet repo
       checkout           cd to facet repo and checkout facet branch
       config             Display facet config
       create             Create a facet for a JIRA issue
@@ -48,16 +47,6 @@ class Command:
         """
         facet = self._get_facet(options)
         self._cd(facet.directory, options)
-
-    def cd_repo(self, options):
-        """
-        cd to facet git repo.
-
-        Usage:
-          cd-repo [FACET]
-        """
-        facet = self._get_facet(options)
-        self._cd(facet.repo, options)
 
     def _cd(self, directory, options):
         if append_to_prompt_commands_file('cd %s\n' % directory):

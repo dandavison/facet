@@ -21,10 +21,6 @@ _facet__cd() {
     __facet_complete_facets
 }
 
-_facet_cd-repo() {
-    __facet_complete_facets
-}
-
 _facet_checkout() {
     __facet_complete_facets
 }
@@ -67,7 +63,6 @@ _facet() {
 
     local commands=(
         _cd
-        cd-repo
         checkout
         config
         create
