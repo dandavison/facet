@@ -17,7 +17,7 @@ __facet_complete_facets() {
     COMPREPLY=( $(compgen -W "$facets" -- "$cur") )
 }
 
-_facet_cd-facet() {
+_facet__cd() {
     __facet_complete_facets
 }
 
@@ -66,7 +66,7 @@ _facet() {
     shopt -s extglob
 
     local commands=(
-        cd-facet
+        _cd
         cd-repo
         checkout
         config

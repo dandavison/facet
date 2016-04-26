@@ -25,7 +25,7 @@ class Command:
       -v, --version      Print version and exit
 
     Commands:
-      cd-facet           cd to facet directory
+      cd                 cd to facet directory
       cd-repo            cd to facet repo
       checkout           cd to facet repo and checkout facet branch
       config             Display facet config
@@ -39,12 +39,12 @@ class Command:
       workon             Switch to a facet
     """
 
-    def cd_facet(self, options):
+    def cd(self, options):
         """
         cd to facet directory.
 
         Usage:
-          cd-facet [FACET]
+          cd [FACET]
         """
         facet = self._get_facet(options)
         self._cd(facet.directory, options)
