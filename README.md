@@ -1,4 +1,4 @@
-<img src="http://www.gemselect.com/other-info/graphics/blue-zircon-gem-large_info.jpg" width="300px"/>
+<img src="./img/facet.png" width="300px"/>
 
 ```
 Switch contexts.
@@ -13,8 +13,8 @@ Options:
 Commands:
   cd-facet           cd to facet directory
   cd-repo            cd to facet repo
+  config             Display facet config
   create             Create a facet for a JIRA issue
-  current            Display facet
   edit               Edit facet
   fetch              Fetch JIRA data for facet
   fetch-all          Fetch JIRA data for all facets
