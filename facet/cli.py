@@ -57,7 +57,7 @@ class Command:
     def _cd(self, directory_attr, options):
         facet = self._get_facet(options)
         os.chdir(getattr(facet, directory_attr))
-        os.execl('/bin/bash', '/bin/bash')
+        os.execv('/bin/bash', ('/bin/bash',))
 
     def checkout(self, options):
         """
@@ -69,7 +69,7 @@ class Command:
         facet = self._get_facet(options)
         os.chdir(facet.repo)
         subprocess.check_call(['git', 'checkout', facet.branch])
-        os.execl('/bin/bash', '/bin/bash')
+        os.execv('/bin/bash', ('/bin/bash',))
 
     def config(self, options):
         """
@@ -117,8 +117,8 @@ class Command:
           edit [FACET]
         """
         facet = self._get_facet(options)
-        os.execl('/bin/bash',
-                 '/bin/bash', '-c', '$EDITOR %s' % facet.directory)
+        os.execv('/bin/bash',
+                 ('/bin/bash', '-c', '$EDITOR %s' % facet.directory))
 
     def fetch(self, options):
         """
