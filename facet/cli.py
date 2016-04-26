@@ -26,7 +26,6 @@ class Command:
       cd-facet           cd to facet directory
       cd-repo            cd to facet repo
       create             Create a facet for a JIRA issue
-      current            Display facet
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       fetch-all          Fetch JIRA data for all facets
@@ -97,16 +96,6 @@ class Command:
         os.mkdir(facet.directory)
         facet.write_config(config)
         facet.fetch()
-        print(facet.style(facet.name))
-
-    def current(self, options):
-        """
-        Display current facet.
-
-        Usage:
-          current
-        """
-        facet = Facet.get_current()
         print(facet.style(facet.name))
 
     def edit(self, options):

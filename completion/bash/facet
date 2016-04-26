@@ -66,7 +66,6 @@ _facet() {
         cd-repo
         checkout
         create
-        current
         edit
         fetch
         fetch-all
