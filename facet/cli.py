@@ -151,6 +151,17 @@ class Command:
         for facet in Facet.get_all():
             print(facet.style(facet.name))
 
+    def ls(self, options):
+        """
+        List facets.
+
+        Usage:
+          ls
+        """
+        for facet in Facet.get_all():
+            if facet.follow:
+                self.show(options, facet=facet)
+
     def migrate(self, options, facet=None):
         """
         Migrate facet.
@@ -193,16 +204,6 @@ class Command:
         if not facet:
             facet = self._get_facet(options)
         print(facet.format())
-
-    def ls(self, options):
-        """
-        List facets.
-
-        Usage:
-          ls
-        """
-        for facet in Facet.get_all():
-            self.show(options, facet=facet)
 
     def workon(self, options):
         """
