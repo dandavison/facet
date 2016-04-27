@@ -32,9 +32,8 @@ class Command:
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       fetch-all          Fetch JIRA data for all facets
-      ls                 List facets
-      summary            Display issue summary
-      summary-all        Display all issue summaries
+      ls                 Display all facets
+      show               Display facet
       workon             Switch to a facet
     """
 
@@ -138,13 +137,6 @@ class Command:
             facet.fetch()
             print(facet.style(facet.name))
 
-    def ls(self, options):
-        """
-        List facets.
-
-        Usage:
-          ls
-        """
         for facet in Facet.get_all():
             print(facet.style(facet.name))
 
@@ -180,26 +172,26 @@ class Command:
         facet = self._get_facet(options)
         webbrowser.open(facet.jira_url)
 
-    def summary(self, options, facet=None):
+    def show(self, options, facet=None):
         """
-        Display issue summary.
+        Display facet.
 
         Usage:
-          summary [FACET]
+          show [FACET]
         """
         if not facet:
             facet = self._get_facet(options)
-        print(facet.format_summary())
+        print(facet.format())
 
-    def summary_all(self, options):
+    def ls(self, options):
         """
-        Display all issue summaries.
+        List facets.
 
         Usage:
-          summary_all
+          ls
         """
         for facet in Facet.get_all():
-            self.summary(options, facet=facet)
+            self.show(options, facet=facet)
 
     def workon(self, options):
         """

@@ -68,7 +68,7 @@ class Facet:
         with open(self.jira_data_file, 'w') as fp:
             dump_json(resp.json(), fp)
 
-    def format_summary(self):
+    def format(self):
         if self.jira:
             return '{name} {summary}'.format(
                 name=self.style(self.name),

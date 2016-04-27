@@ -49,7 +49,7 @@ _facet_open-jira() {
     __facet_complete_facets
 }
 
-_facet_summary() {
+_facet_show() {
     __facet_complete_facets
 }
 
@@ -73,8 +73,7 @@ _facet() {
         migrate
         migrate-all
         open-jira
-        summary
-        summary-all
+        show
         workon
     )
 
