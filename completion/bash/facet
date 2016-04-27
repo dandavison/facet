@@ -41,6 +41,10 @@ _facet_fetch() {
     __facet_complete_facets
 }
 
+_facet_follow() {
+    __facet_complete_facets
+}
+
 _facet_migrate() {
     __facet_complete_facets
 }
@@ -50,6 +54,10 @@ _facet_open-jira() {
 }
 
 _facet_show() {
+    __facet_complete_facets
+}
+
+_facet_unfollow() {
     __facet_complete_facets
 }
 
@@ -70,11 +78,13 @@ _facet() {
         edit
         fetch
         fetch-all
+        follow
         ls
         migrate
         migrate-all
         open-jira
         show
+        unfollow
         workon
     )
 

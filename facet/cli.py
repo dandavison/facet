@@ -35,6 +35,7 @@ class Command:
       fetch-all          Fetch JIRA data for all facets
       ls                 Display all facets
       show               Display facet
+      unfollow           Unfollow facet
       workon             Switch to a facet
     """
 
@@ -151,6 +152,16 @@ class Command:
         for facet in Facet.get_all():
             print(facet.style(facet.name))
 
+    def follow(self, options):
+        """
+        Follow facet.
+
+        Usage:
+          follow [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.follow()
+
     def ls(self, options):
         """
         List facets.
@@ -159,7 +170,7 @@ class Command:
           ls
         """
         for facet in Facet.get_all():
-            if facet.follow:
+            if facet.following:
                 self.show(options, facet=facet)
 
     def migrate(self, options, facet=None):
@@ -204,6 +215,16 @@ class Command:
         if not facet:
             facet = self._get_facet(options)
         print(facet.format())
+
+    def unfollow(self, options):
+        """
+        Unfollow facet.
+
+        Usage:
+          unfollow [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.unfollow()
 
     def workon(self, options):
         """

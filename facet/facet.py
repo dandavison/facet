@@ -50,7 +50,10 @@ class Facet:
             config = yaml.load(fp)
         return config.get(key) if key is not None else config
 
-    def write_config(self, config):
+    def write_config(self, config=None, **kwargs):
+        if config is None:
+            config = self.read_config()
+            config.update(kwargs)
         with open(self.config_file, 'w') as fp:
             dump_yaml(config, fp)
 
@@ -105,6 +108,16 @@ class Facet:
     @property
     def jira_data_file(self):
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
+
+    @property
+    def following(self):
+        return self.read_config('follow')
+
+    def follow(self):
+        self.write_config(follow=True)
+
+    def unfollow(self):
+        self.write_config(follow=False)
 
     @property
     def jira(self):
