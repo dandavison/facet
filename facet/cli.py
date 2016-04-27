@@ -89,7 +89,7 @@ class Command:
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
 
-        jira_issue = prompt_for_user_input('JIRA issue')
+        jira_issue = prompt_for_user_input('JIRA issue', facet.name)
         repo = prompt_for_user_input('Git repo', settings.DEFAULT_REPO)
         branch = prompt_for_user_input('Branch', facet.name)
 
@@ -101,6 +101,8 @@ class Command:
                              ('jira', jira_issue)]
             if val
         }
+        config['follow'] = True
+
         os.mkdir(facet.directory)
         facet.write_config(config)
         facet.fetch()
