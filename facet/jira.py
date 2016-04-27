@@ -34,6 +34,10 @@ class JiraIssue:
     def status(self):
         return JIRA_STATUS2STATUS[self.jira_status]
 
+    @property
+    def is_done(self):
+        return self.status == Status.done
+
     def get_style_function(self):
         return {
             Status.todo: default_color,

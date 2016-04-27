@@ -138,6 +138,13 @@ class Facet:
     def repo(self):
         return path.expanduser(self.read_config('repo'))
 
+    @property
+    def is_done(self):
+        if self.jira:
+            return self.jira_issue.is_done
+        else:
+            return None
+
     def style(self, string, color=True):
         is_current = self == self.get_current()
         if not color or not self.jira:

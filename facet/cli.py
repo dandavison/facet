@@ -170,7 +170,7 @@ class Command:
           ls
         """
         for facet in Facet.get_all():
-            if facet.following:
+            if facet.following and not facet.is_done:
                 self.show(options, facet=facet)
 
     def migrate(self, options, facet=None):
