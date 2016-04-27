@@ -29,6 +29,7 @@ class Command:
       checkout           cd to facet repo and checkout facet branch
       config             Display facet config
       create             Create a facet for a JIRA issue
+      current            Display current facet
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       fetch-all          Fetch JIRA data for all facets
@@ -103,6 +104,16 @@ class Command:
         facet.write_config(config)
         facet.fetch()
         print(facet.style(facet.name))
+
+    def current(self, options):
+        """
+        Display current facet.
+
+        Usage:
+          current
+        """
+        facet = Facet.get_current()
+        print(facet.format())
 
     def edit(self, options):
         """

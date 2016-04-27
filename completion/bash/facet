@@ -66,6 +66,7 @@ _facet() {
         checkout
         config
         create
+        current
         edit
         fetch
         fetch-all
