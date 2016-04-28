@@ -1,13 +1,13 @@
 import os
 import subprocess
 import sys
-import webbrowser
 
 import json
 
 from facet import settings
 from facet.cli_dispatch import Dispatcher
 from facet.facet import Facet
+from facet.webbrowser import open_url
 from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
 from facet.utils import prompt_for_user_input
@@ -212,7 +212,7 @@ class Command:
           open-jira [FACET]
         """
         facet = self._get_facet(options)
-        webbrowser.open(facet.jira_url)
+        open_url(facet.jira_url)
 
     def show(self, options, facet=None):
         """
