@@ -11,6 +11,7 @@ from facet.facet import Facet
 from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
 from facet.utils import prompt_for_user_input
+from facet.utils import warning
 
 
 class Command:
@@ -65,7 +66,13 @@ class Command:
         """
         facet = self._get_facet(options)
         os.chdir(facet.repo)
-        subprocess.check_call(['git', 'checkout', facet.branch])
+        try:
+            subprocess.check_call(['git', 'checkout', facet.branch])
+        except subprocess.CalledProcessError as ex:
+            warning('{ex_cls}: {ex}'.format(
+                ex_cls=type(ex).__name__,
+                ex=ex,
+            ))
         self._cd(facet.repo)
 
     def config(self, options):

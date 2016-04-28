@@ -9,6 +9,10 @@ from clint.textui.colored import colorama
 from facet import settings
 
 
+def warning(msg):
+    print(msg, file=sys.stderr)
+
+
 def dump_json(obj, fp):
     json.dump(obj, fp, indent=2, sort_keys=True)
 
