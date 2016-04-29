@@ -5,7 +5,7 @@ import yaml
 
 FACET_DIR = path.expanduser("~/.facet")
 FACETS_DIR = path.join(FACET_DIR, 'facets')
-JIRA_AUTH_FILE = path.join(FACET_DIR, '.auth.yaml')
+JIRA_AUTH_FILE = path.join(FACET_DIR, 'auth.yaml')
 LOCAL_SETTINGS_FILE = path.join(FACET_DIR, 'settings.yaml')
 
 # Set these in LOCAL_SETTINGS_FILE

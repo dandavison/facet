@@ -5,7 +5,7 @@ from facet import settings
 from facet.utils import dump_json
 
 
-_FILE = path.join(settings.FACET_DIR, ".state")
+_FILE = path.join(settings.FACET_DIR, "state.json")
 
 
 def read(key=None):
