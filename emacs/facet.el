@@ -4,30 +4,49 @@
 ;; Keywords: project, task
 ;; URL: https://github.com/dandavison/facet
 
-(defvar facet-current-project nil)
-
-(defvar facet-directory nil)
+(defvar facet-directory (expand-file-name "~/.facet/"))
 
 ;;;###autoload
 (defun facet (arg)
   (interactive "P")
   (call-interactively
-   (if arg 'facet-workon 'facet-goto-project-directory)))
+   (if arg 'facet-workon 'facet-cd)))
 
 ;;;###autoload
-(defun facet-workon (project-name)
-  "Set current project."
+(defun facet-workon (facet-name)
+  "Set current facet."
   (interactive
    (list
     (completing-read
-     "Project name: " (directory-files facet-directory nil "^[^.]"))))
-  (setq facet-current-project project-name))
+     "Facet name: " (directory-files (facets-directory) nil "^[^.]"))))
+  (facet-write-state 'facet facet-name))
 
 ;;;###autoload
-(defun facet-goto-project-directory ()
-  "Open dired buffer on project directory"
+(defun facet-cd ()
+  "Open dired buffer on facet directory"
   (interactive)
-  (dired (expand-file-name facet-current-project facet-directory)))
+  (dired (expand-file-name (facet-current-facet) (facets-directory))))
+
+(defun facet-current-facet ()
+  (cdr (assoc 'facet (facet-read-state))))
+
+(defun facet-facets-directory ()
+  (expand-file-name "facets" facet-directory))
+
+(defun facet-state-file ()
+  (expand-file-name "state.json" facet-directory))
+
+(defun facet-read-state ()
+  (json-read-file (facet-state-file)))
+
+(defun facet-write-state (key value)
+  (write-region
+   (json-encode
+    (append
+     (assq-delete-all key (facet-read-state))
+     `((,key . ,value))))
+   nil (facet-state-file)))
+
 
 (provide 'facet)
 ;;; facet.el ends here
