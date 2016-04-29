@@ -176,10 +176,14 @@ class Command:
         List facets.
 
         Usage:
-          ls
+          ls [options]
+
+        Options:
+          -a, --all     Include non-followed facets
         """
         for facet in Facet.get_all():
-            if facet.following and not facet.is_done:
+            if options.get('--all') or (
+                    facet.following and not facet.is_done):
                 self.show(options, facet=facet)
 
     def migrate(self, options, facet=None):
