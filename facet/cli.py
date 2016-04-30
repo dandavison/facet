@@ -11,6 +11,7 @@ from facet.webbrowser import open_url
 from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
 from facet.utils import prompt_for_user_input
+from facet.utils import error
 from facet.utils import warning
 
 
@@ -229,7 +230,13 @@ class Command:
 
     def _get_facet(self, options):
         name = options.get('FACET')
-        return Facet(name=name) if name else Facet.get_current()
+        if name:
+            facet = Facet(name=name)
+            if not facet.exists():
+                error("No such facet: '%s'" % facet.name)
+        else:
+            facet = Facet.get_current()
+        return facet
 
     def _get_facets(self, options):
         if options.get('--all'):

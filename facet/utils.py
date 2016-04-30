@@ -9,6 +9,11 @@ from clint.textui.colored import colorama
 from facet import settings
 
 
+def error(msg):
+    print(msg, file=sys.stderr)
+    sys.exit(1)
+
+
 def warning(msg):
     print(msg, file=sys.stderr)
 
