@@ -33,7 +33,6 @@ class Command:
       current            Display current facet
       edit               Edit facet
       fetch              Fetch JIRA data for facet
-      fetch-all          Fetch JIRA data for all facets
       ls                 Display all facets
       show               Display facet
       unfollow           Unfollow facet
@@ -138,27 +137,21 @@ class Command:
 
     def fetch(self, options):
         """
-        Fetch JIRA issue data.
+        Fetch JIRA issue data for facet.
 
         Usage:
-          fetch
-        """
-        facet = self._get_facet(options)
-        facet.fetch()
-        print(facet.style(facet.name))
+          fetch [options]
 
-    def fetch_all(self, options):
+        Options:
+          -a, --all     Fetch all facets
         """
-        Fetch JIRA issue data for all facets.
+        if options.get('--all'):
+            facets = Facet.get_all()
+        else:
+            facets = [self._get_facet(options)]
 
-        Usage:
-          fetch
-        """
-        for facet in Facet.get_all():
+        for facet in facets:
             facet.fetch()
-            print(facet.style(facet.name))
-
-        for facet in Facet.get_all():
             print(facet.style(facet.name))
 
     def follow(self, options):

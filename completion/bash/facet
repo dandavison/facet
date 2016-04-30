@@ -77,7 +77,6 @@ _facet() {
         current
         edit
         fetch
-        fetch-all
         follow
         ls
         migrate
