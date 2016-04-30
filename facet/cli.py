@@ -34,6 +34,7 @@ class Command:
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       ls                 Display all facets
+      migrate            Apply a patch to facet configs
       show               Display facet
       unfollow           Unfollow facet
       workon             Switch to a facet
@@ -146,12 +147,7 @@ class Command:
         Options:
           -a, --all     Fetch all facets
         """
-        if options.get('--all'):
-            facets = Facet.get_all()
-        else:
-            facets = [self._get_facet(options)]
-
-        for facet in facets:
+        for facet in self._get_facets(options):
             facet.fetch()
             print(facet.style(facet.name))
 
@@ -185,22 +181,15 @@ class Command:
         Migrate facet.
 
         Usage:
-          migrate FACET PATCH
+          migrate [options] [FACET] PATCH
+
+        Options:
+          -a, --all     Migrate all facets
         """
         if not facet:
             facet = self._get_facet(options)
         patch = json.loads(options['PATCH'])
         facet.apply_patch(patch)
-
-    def migrate_all(self, options):
-        """
-        Migrate all facets.
-
-        Usage:
-          migrate_all PATCH
-        """
-        for facet in Facet.get_all():
-            self.migrate(options, facet=facet)
 
     def open_jira(self, options):
         """
@@ -245,6 +234,12 @@ class Command:
     def _get_facet(self, options):
         name = options.get('FACET')
         return Facet(name=name) if name else Facet.get_current()
+
+    def _get_facets(self, options):
+        if options.get('--all'):
+            return Facet.get_all()
+        else:
+            return [self._get_facet(options)]
 
 
 def jira_data_file(project):

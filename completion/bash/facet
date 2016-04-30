@@ -80,7 +80,6 @@ _facet() {
         follow
         ls
         migrate
-        migrate-all
         open-jira
         show
         unfollow
