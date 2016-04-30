@@ -33,6 +33,7 @@ class Command:
       current            Display current facet
       edit               Edit facet
       fetch              Fetch JIRA data for facet
+      follow             Follow/unfollow a facet
       ls                 Display all facets
       migrate            Apply a patch to facet configs
       show               Display facet
