@@ -63,6 +63,7 @@ class Command:
         Usage:
           checkout [FACET]
         """
+        self.workon(options)
         facet = self._get_facet(options)
         os.chdir(facet.repo)
         try:
@@ -239,8 +240,7 @@ class Command:
         Usage:
           workon FACET
         """
-        facet = Facet(name=options['FACET'])
-        Facet.set_current(facet)
+        Facet.set_current(self._get_facet(options))
 
     def _get_facet(self, options):
         name = options.get('FACET')
