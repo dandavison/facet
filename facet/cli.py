@@ -36,7 +36,6 @@ class Command:
       ls                 Display all facets
       migrate            Apply a patch to facet configs
       show               Display facet
-      unfollow           Unfollow facet
       workon             Switch to a facet
     """
 
@@ -156,10 +155,16 @@ class Command:
         Follow facet.
 
         Usage:
-          follow [FACET]
+          follow [options] [FACET]
+
+        Options:
+          -n, --unfollow    Unfollow facet
         """
         facet = self._get_facet(options)
-        facet.follow()
+        if options.get('--unfollow'):
+            facet.unfollow()
+        else:
+            facet.follow()
 
     def ls(self, options):
         """
@@ -211,16 +216,6 @@ class Command:
         if not facet:
             facet = self._get_facet(options)
         print(facet.format())
-
-    def unfollow(self, options):
-        """
-        Unfollow facet.
-
-        Usage:
-          unfollow [FACET]
-        """
-        facet = self._get_facet(options)
-        facet.unfollow()
 
     def workon(self, options):
         """

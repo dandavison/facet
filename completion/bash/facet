@@ -57,10 +57,6 @@ _facet_show() {
     __facet_complete_facets
 }
 
-_facet_unfollow() {
-    __facet_complete_facets
-}
-
 _facet_workon() {
     __facet_complete_facets
 }
@@ -82,7 +78,6 @@ _facet() {
         migrate
         open-jira
         show
-        unfollow
         workon
     )
 
