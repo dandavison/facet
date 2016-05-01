@@ -73,10 +73,16 @@ class Facet:
 
     def format(self):
         if self.jira:
+            try:
+                jira_issue = self.get_jira_issue()
+            except IOError as ex:
+                summary = '<failed to fetch summary>'
+            else:
+                summary=self.style(jira_issue.summary, color=False)
             return '{name} {summary}'.format(
                 name=self.style(self.name),
-                summary=self.style(self.jira_issue.summary,
-                                   color=False))
+                summary=summary,
+            )
         else:
             return self.style(self.name)
 
@@ -123,8 +129,7 @@ class Facet:
     def jira(self):
         return self.read_config('jira')
 
-    @property
-    def jira_issue(self):
+    def get_jira_issue(self):
         if not path.exists(self.jira_data_file):
             self.fetch()
         with open(self.jira_data_file) as fp:
@@ -141,7 +146,7 @@ class Facet:
     @property
     def is_done(self):
         if self.jira:
-            return self.jira_issue.is_done
+            return self.get_jira_issue().is_done
         else:
             return None
 
@@ -150,7 +155,13 @@ class Facet:
         if not color or not self.jira:
             style_function = default_color
         else:
-            style_function = self.jira_issue.get_style_function()
+            try:
+                jira_issue = self.get_jira_issue()
+            except IOError:
+                style_function = default_color
+            else:
+                style_function = jira_issue.get_style_function()
+
         return style_function(string, bold=is_current)
 
     def __eq__(self, other):

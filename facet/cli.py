@@ -114,7 +114,10 @@ class Command:
 
         os.mkdir(facet.directory)
         facet.write_config(config)
-        facet.fetch()
+        try:
+            facet.fetch()
+        except IOError as ex:
+            warning('%s: %s' % (type(ex).__name__, ex))
         print(facet.style(facet.name))
 
     def current(self, options):
