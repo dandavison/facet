@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import sys
 
@@ -37,6 +38,7 @@ class Command:
       follow             Follow/unfollow a facet
       ls                 Display all facets
       migrate            Apply a patch to facet configs
+      rm                 Delete facet
       show               Display facet
       workon             Switch to a facet
     """
@@ -215,6 +217,19 @@ class Command:
         """
         facet = self._get_facet(options)
         open_url(facet.jira_url)
+
+    def rm(self, options):
+        """
+        Delete facet.
+
+        Usage:
+          rm [FACET]
+        """
+        facet = self._get_facet(options)
+        ok = prompt_for_user_input("OK to delete facet '%s'?" % facet.name,
+                                   True)
+        if ok:
+            shutil.rmtree(facet.directory)
 
     def show(self, options, facet=None):
         """

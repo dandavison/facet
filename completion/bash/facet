@@ -53,6 +53,10 @@ _facet_open-jira() {
     __facet_complete_facets
 }
 
+_facet_rm() {
+    __facet_complete_facets
+}
+
 _facet_show() {
     __facet_complete_facets
 }
@@ -77,6 +81,7 @@ _facet() {
         ls
         migrate
         open-jira
+        rm
         show
         workon
     )
