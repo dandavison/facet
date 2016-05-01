@@ -92,13 +92,18 @@ class Command:
         Create a facet for a JIRA issue.
 
         Usage:
-          create NAME
+          create [options] NAME
+
+        Options:
+          -j, --jira  Create a JIRA facet.
         """
         facet = Facet(name=options['NAME'])
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
 
-        jira_issue = prompt_for_user_input('JIRA issue', facet.name)
+
+        jira_issue = (prompt_for_user_input('JIRA issue', facet.name)
+                      if options.get('--jira') else None)
         repo = prompt_for_user_input('Git repo', settings.DEFAULT_REPO)
         branch = prompt_for_user_input('Branch', facet.name)
 
