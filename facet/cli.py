@@ -270,4 +270,7 @@ def main():
 
     options, handler, command_options = dispatcher.parse(sys.argv[1:])
 
-    handler(options)
+    try:
+        handler(options)
+    except KeyboardInterrupt:
+        sys.exit(1)
