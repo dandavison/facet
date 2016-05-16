@@ -103,7 +103,6 @@ class Command:
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
 
-
         jira_issue = (prompt_for_user_input('JIRA issue', facet.name)
                       if options.get('--jira') else None)
         repo = prompt_for_user_input('Git repo', settings.DEFAULT_REPO)

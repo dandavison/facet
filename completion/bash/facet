@@ -2,18 +2,18 @@
 #
 # bash completion, based on docker/contrib/completion/bash/docker
 
+# TODO: This is set in python code also
+export FACET_DIRECTORY=~/.facet
+
 __facet_previous_extglob_setting=$(shopt -p extglob)
 shopt -s extglob
-
-# TODO: This is set in python code also
-export FACETS_DIR=~/.facet/facets
 
 __facet_complete_commands() {
     COMPREPLY=( $(compgen -W "${commands[*]}" -- "$cur") )
 }
 
 __facet_complete_facets() {
-    local facets=$(ls $FACETS_DIR | tr '\n' ' ')
+    local facets=$(ls $FACET_DIRECTORY/facets | tr '\n' ' ')
     COMPREPLY=( $(compgen -W "$facets" -- "$cur") )
 }
 

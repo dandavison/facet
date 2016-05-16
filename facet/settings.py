@@ -1,9 +1,10 @@
+from os import environ
 from os import path
 
 import yaml
 
 
-FACET_DIR = path.expanduser("~/.facet")
+FACET_DIR = path.expanduser(environ.get('FACET_DIRECTORY', '~/.facet'))
 FACETS_DIR = path.join(FACET_DIR, 'facets')
 JIRA_AUTH_FILE = path.join(FACET_DIR, 'auth.yaml')
 LOCAL_SETTINGS_FILE = path.join(FACET_DIR, 'settings.yaml')

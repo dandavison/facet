@@ -13,10 +13,7 @@ def read(key=None):
         with open(_FILE) as fp:
             state = json.load(fp)
     except FileNotFoundError:
-        if key:
-            raise
-        else:
-            state = {}
+        state = {}
     return state.get(key) if key is not None else state
 
 
