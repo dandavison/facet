@@ -13,6 +13,7 @@ from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
 from facet.utils import prompt_for_user_input
 from facet.utils import error
+from facet.utils import os_exec
 from facet.utils import warning
 
 
@@ -58,7 +59,7 @@ class Command:
             sys.exit(0)
         else:
             os.chdir(directory)
-            os.execv('/bin/bash', ('/bin/bash',))
+            os_exec(['/bin/bash'])
 
     def checkout(self, options):
         """
@@ -144,8 +145,7 @@ class Command:
           edit [FACET]
         """
         facet = self._get_facet(options)
-        os.execv('/bin/bash',
-                 ('/bin/bash', '-c', '$EDITOR %s' % facet.directory))
+        os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.directory])
 
     def fetch(self, options):
         """

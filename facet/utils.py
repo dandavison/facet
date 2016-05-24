@@ -9,6 +9,10 @@ from clint.textui.colored import colorama
 from facet import settings
 
 
+def os_exec(args):
+    return os.execv(args[0], args)
+
+
 def error(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
