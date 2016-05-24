@@ -7,7 +7,7 @@ from docopt import docopt
 from docopt import DocoptExit
 
 
-class Dispatcher(object):
+class Dispatcher:
 
     def __init__(self, command, options):
         self.command = command
