@@ -136,7 +136,6 @@ class Command:
             facet.fetch()
         except IOError as ex:
             warning('%s: %s' % (type(ex).__name__, ex))
-        print(facet.style(facet.name))
 
     def current(self, options):
         """
@@ -170,7 +169,7 @@ class Command:
         """
         for facet in self._get_facets(options):
             facet.fetch()
-            print(facet.style(facet.name))
+            print(facet.format())
 
     def follow(self, options):
         """
