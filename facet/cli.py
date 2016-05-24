@@ -156,7 +156,7 @@ class Command:
           edit [FACET]
         """
         facet = self._get_facet(options)
-        os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.directory])
+        os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.repo])
 
     def fetch(self, options):
         """
