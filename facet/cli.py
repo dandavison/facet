@@ -7,7 +7,7 @@ import json
 
 from facet import settings
 from facet.cli_dispatch import Dispatcher
-from facet.facet import Facet
+from facet.core import Facet
 from facet.webbrowser import open_url
 from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
