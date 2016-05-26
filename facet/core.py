@@ -104,6 +104,11 @@ class Facet:
                 ))
 
     @property
+    def url(self):
+        # TODO: non-JIRA URLs
+        return self.jira_url
+
+    @property
     def directory(self):
         return path.join(settings.FACETS_DIR, self.name)
 

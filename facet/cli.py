@@ -40,6 +40,7 @@ class Command:
       follow             Follow/unfollow a facet
       ls                 Display all facets
       migrate            Apply a patch to facet configs
+      web                Open web page for facet
       rm                 Delete facet
       show               Display facet
       workon             Switch to a facet
@@ -217,15 +218,15 @@ class Command:
         patch = json.loads(options['PATCH'])
         facet.apply_patch(patch)
 
-    def open_jira(self, options):
+    def web(self, options):
         """
-        Open JIRA issue
+        Open web page for facet
 
         Usage:
-          open-jira [FACET]
+          web [FACET]
         """
         facet = self._get_facet(options)
-        open_url(facet.jira_url)
+        open_url(facet.url)
 
     def rm(self, options):
         """

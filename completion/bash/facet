@@ -49,7 +49,7 @@ _facet_migrate() {
     __facet_complete_facets
 }
 
-_facet_open-jira() {
+_facet_web() {
     __facet_complete_facets
 }
 
@@ -80,9 +80,9 @@ _facet() {
         follow
         ls
         migrate
-        open-jira
         rm
         show
+        web
         workon
     )
 
