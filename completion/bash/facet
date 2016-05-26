@@ -29,6 +29,10 @@ _facet_config() {
     __facet_complete_facets
 }
 
+_facet_configure() {
+    __facet_complete_facets
+}
+
 _facet_edit() {
     __facet_complete_facets
 }
@@ -73,6 +77,7 @@ _facet() {
         cd
         checkout
         config
+        configure
         create
         current
         edit
