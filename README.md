@@ -1,5 +1,12 @@
 <img src="./img/facet.png" width="300px"/>
 
+#### Installation
+```
+$ python3 setup.py develop
+$ . completion/bash/facet  # optional tab completion for bash
+```
+
+#### Usage
 ```
 Switch contexts.
 
@@ -11,15 +18,18 @@ Options:
   -v, --version      Print version and exit
 
 Commands:
-  cd-facet           cd to facet directory
-  cd-repo            cd to facet repo
+  cd                 cd to facet directory
+  checkout           cd to facet repo and checkout facet branch
   config             Display facet config
+  configure          Configure facet
   create             Create a facet for a JIRA issue
+  current            Display current facet
   edit               Edit facet
   fetch              Fetch JIRA data for facet
-  fetch-all          Fetch JIRA data for all facets
-  ls                 List facets
-  summary            Display issue summary
-  summary-all        Display all issue summaries
+  follow             Follow/unfollow a facet
+  ls                 Display all facets
+  migrate            Apply a patch to facet configs
+  rm                 Delete facet
+  show               Display facet
   workon             Switch to a facet
 ```
