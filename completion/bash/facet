@@ -21,10 +21,6 @@ _facet_cd() {
     __facet_complete_facets
 }
 
-_facet_checkout() {
-    __facet_complete_facets
-}
-
 _facet_config() {
     __facet_complete_facets
 }
@@ -75,7 +71,6 @@ _facet() {
 
     local commands=(
         cd
-        checkout
         config
         configure
         create

@@ -30,7 +30,6 @@ class Command:
 
     Commands:
       cd                 cd to facet directory
-      checkout           cd to facet repo and checkout facet branch
       config             Display facet config
       configure          Configure facet
       create             Create a facet for a JIRA issue
@@ -43,7 +42,7 @@ class Command:
       web                Open web page for facet
       rm                 Delete facet
       show               Display facet
-      workon             Switch to a facet
+      workon             Switch to a facet, cd to repo and checkout branch
     """
 
     def cd(self, options):
@@ -62,25 +61,6 @@ class Command:
         else:
             os.chdir(directory)
             os_exec(['/bin/bash'])
-
-    def checkout(self, options):
-        """
-        cd to facet repo and checkout facet branch.
-
-        Usage:
-          checkout [FACET]
-        """
-        self.workon(options)
-        facet = self._get_facet(options)
-        os.chdir(facet.repo)
-        try:
-            subprocess.check_call(['git', 'checkout', facet.branch])
-        except subprocess.CalledProcessError as ex:
-            warning('{ex_cls}: {ex}'.format(
-                ex_cls=type(ex).__name__,
-                ex=ex,
-            ))
-        self._cd(facet.repo)
 
     def config(self, options):
         """
@@ -254,12 +234,22 @@ class Command:
 
     def workon(self, options):
         """
-        Switch to a project
+        Switch facet, cd to repo and checkout branch.
 
         Usage:
-          workon FACET
+          workon [FACET]
         """
-        Facet.set_current(self._get_facet(options))
+        facet = self._get_facet(options)
+        Facet.set_current(facet)
+        os.chdir(facet.repo)
+        try:
+            subprocess.check_call(['git', 'checkout', facet.branch])
+        except subprocess.CalledProcessError as ex:
+            warning('{ex_cls}: {ex}'.format(
+                ex_cls=type(ex).__name__,
+                ex=ex,
+            ))
+        self._cd(facet.repo)
 
     def _get_facet(self, options):
         name = options.get('FACET')
