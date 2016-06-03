@@ -148,7 +148,12 @@ class Command:
         Options:
           -a, --all     Fetch all facets
         """
-        for facet in self._get_facets(options):
+        if options.get('FACET'):
+            facets = [self._get_facet(options)]
+        else:
+            include_inactive = options.get('--all')
+            facets = Facet.get_all(include_inactive)
+        for facet in facets:
             facet.fetch()
             print(facet.format())
 
@@ -259,12 +264,6 @@ class Command:
         else:
             facet = Facet.get_current()
         return facet
-
-    def _get_facets(self, options):
-        if options.get('--all'):
-            return Facet.get_all()
-        else:
-            return [self._get_facet(options)]
 
 
 def jira_data_file(project):
