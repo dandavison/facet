@@ -32,9 +32,11 @@ class Facet:
         state.write(facet=facet.name)
 
     @classmethod
-    def get_all(cls):
+    def get_all(cls, include_inactive=False):
         for name in cls.get_all_names():
-            yield cls(name=name)
+            facet = cls(name=name)
+            if facet.is_active or include_inactive:
+                yield facet
 
     @staticmethod
     def get_all_names():
@@ -121,8 +123,8 @@ class Facet:
         return path.join(self.directory, _JIRA_DATA_FILE_NAME)
 
     @property
-    def following(self):
-        return self.read_config('follow')
+    def is_active(self):
+        return self.read_config('follow') and not self.is_done
 
     def follow(self):
         self.write_config(follow=True)
