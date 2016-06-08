@@ -7,11 +7,12 @@ from textwrap import dedent
 class Chrome:
     # Example line of `chrome-cli list tabs` output:
     # [1794:2294] python parsimonious - Google Search
+    # That's window_id:tab_id. If you only have one window, the output is
+    # [2294] python parsimonious - Google Search
     TAB_REGEX = re.compile(r'''
     ^
     \[
-      (?P<window_id>\d+)
-      :
+      ((?P<window_id>\d+):)?
       (?P<tab_id>\d+)
     \]
     \s+
