@@ -249,10 +249,17 @@ class Command:
         try:
             subprocess.check_call(['git', 'checkout', facet.branch])
         except subprocess.CalledProcessError as ex:
-            warning('{ex_cls}: {ex}'.format(
-                ex_cls=type(ex).__name__,
-                ex=ex,
-            ))
+            warning("Branch %s does not exist; "
+                    "creating it as branch off master" % facet.branch)
+            try:
+                subprocess.check_call(
+                    ['git', 'checkout', '-b', facet.branch, 'master'],
+                )
+            except subprocess.CalledProcessError as ex:
+                warning('{ex_cls}: {ex}'.format(
+                    ex_cls=type(ex).__name__,
+                    ex=ex,
+                ))
         self._cd(facet.repo)
 
     def _get_facet(self, options):
