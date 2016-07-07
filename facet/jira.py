@@ -12,10 +12,10 @@ class Status(Enum):
 
 
 JIRA_STATUS2STATUS = {
-    'Closed': Status.done,
-    'In Progress': Status.doing,
-    'Review': Status.doing,
     'To Do': Status.todo,
+    'In Progress': Status.doing,
+    'Closed': Status.done,
+    'Reopened': Status.todo,
 }
 
 
