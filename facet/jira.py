@@ -8,12 +8,14 @@ from facet.utils import default_color
 class Status(Enum):
     todo = 1
     doing = 2
-    done = 3
+    under_review = 3
+    done = 4
 
 
 JIRA_STATUS2STATUS = {
     'To Do': Status.todo,
     'In Progress': Status.doing,
+    'Review': Status.under_review,
     'Closed': Status.done,
     'Reopened': Status.todo,
 }
@@ -43,5 +45,6 @@ class JiraIssue:
         return {
             Status.todo: default_color,
             Status.doing: colored.red,
+            Status.under_review: colored.yellow,
             Status.done: colored.green,
         }[self.status]
