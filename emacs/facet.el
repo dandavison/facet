@@ -18,14 +18,14 @@
   (interactive
    (list
     (completing-read
-     "Facet name: " (directory-files (facets-directory) nil "^[^.]"))))
+     "Facet name: " (directory-files (facet-facets-directory) nil "^[^.]"))))
   (facet-write-state 'facet facet-name))
 
 ;;;###autoload
 (defun facet-cd ()
   "Open dired buffer on facet directory"
   (interactive)
-  (dired (expand-file-name (facet-current-facet) (facets-directory))))
+  (dired (expand-file-name (facet-current-facet) (facet-facets-directory))))
 
 (defun facet-current-facet ()
   (cdr (assoc 'facet (facet-read-state))))
