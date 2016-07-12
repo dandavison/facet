@@ -247,21 +247,26 @@ class Command:
         facet = self._get_facet(options)
         Facet.set_current(facet)
         os.chdir(facet.repo)
+        if facet.branch:
+            self._checkout(facet.branch)
+        self._cd(facet.repo)
+
+    @staticmethod
+    def _checkout(branch):
         try:
-            subprocess.check_call(['git', 'checkout', facet.branch])
+            subprocess.check_call(['git', 'checkout', branch])
         except subprocess.CalledProcessError as ex:
             warning("Branch %s does not exist; "
-                    "creating it as branch off master" % facet.branch)
+                    "creating it as branch off master" % branch)
             try:
                 subprocess.check_call(
-                    ['git', 'checkout', '-b', facet.branch, 'master'],
+                    ['git', 'checkout', '-b', branch, 'master'],
                 )
             except subprocess.CalledProcessError as ex:
                 warning('{ex_cls}: {ex}'.format(
                     ex_cls=type(ex).__name__,
                     ex=ex,
                 ))
-        self._cd(facet.repo)
 
     def _get_facet(self, options):
         name = options.get('FACET')
