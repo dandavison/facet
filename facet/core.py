@@ -81,7 +81,7 @@ class Facet:
                 summary = '<failed to fetch summary>'
             else:
                 summary=self.style(jira_issue.summary, color=False)
-            return '{name} {summary}'.format(
+            return '{name}\t{summary}'.format(
                 name=self.style(self.name),
                 summary=summary,
             )
