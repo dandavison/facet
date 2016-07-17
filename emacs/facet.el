@@ -16,23 +16,15 @@
    (if arg 'facet-workon 'facet-cd)))
 
 ;;;###autoload
-(defun facet-workon (facet-name)
-  "Set current facet."
-  (interactive
-   (list
-    (completing-read
-     "Facet name: " (facet-list))))
-  (facet-write-state 'facet facet-name))
-
-;;;###autoload
-(defun facet-workon-helm ()
+(defun facet-workon ()
   "Set current facet."
   (interactive)
   (helm
    :sources
    `((name . "Facets")
      (candidates . ,(facet-list))
-     (action . facet-workon))))
+     (action . (lambda (candidate)
+                 (shell-command (format "facet workon %s" facet-name)))))))
 
 ;;;###autoload
 (defun facet-cd ()
