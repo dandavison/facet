@@ -10,10 +10,9 @@
 (defvar facet-directory (expand-file-name "~/.facet/"))
 
 ;;;###autoload
-(defun facet (arg)
-  (interactive "P")
-  (call-interactively
-   (if arg 'facet-workon 'facet-cd)))
+(defun facet-show ()
+  (interactive)
+  (shell-command "facet show"))
 
 ;;;###autoload
 (defun facet-workon ()
