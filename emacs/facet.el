@@ -21,7 +21,7 @@
   (helm
    :sources
    `((name . "Facets")
-     (candidates . ,(facet-list))
+     (candidates . ,(facet-candidates-list))
      (action . (lambda (candidate)
                  (shell-command (format "facet workon %s" facet-name)))))))
 
@@ -31,7 +31,7 @@
   (interactive)
   (dired (expand-file-name (facet-current-facet) (facet-facets-directory))))
 
-(defun facet-list ()
+(defun facet-candidates-list ()
   (let* ((rows
           (mapcar
            (lambda (line) (split-string line "\t"))
