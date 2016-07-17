@@ -38,7 +38,10 @@
   (dired (expand-file-name (facet-current-facet) (facet-facets-directory))))
 
 (defun facet-list ()
-  (directory-files (facet-facets-directory) nil "^[^.]"))
+  (mapcar
+   (lambda (line) (let* ((words (split-string line)))
+               `(,line . ,(first words))))
+   (split-string (shell-command-to-string "facet ls") "[\n\r]+")))
 
 (defun facet-current-facet ()
   (cdr (assoc 'facet (facet-read-state))))
