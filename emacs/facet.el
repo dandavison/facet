@@ -32,6 +32,8 @@
   (dired (expand-file-name (facet-current-facet) (facet-facets-directory))))
 
 (defun facet-candidates-list ()
+  "Return alist of facets
+  Each element is ((formatted-line) . facet-name)"
   (let* ((rows
           (mapcar
            (lambda (line) (split-string line "\t"))
