@@ -22,6 +22,16 @@
   (facet-write-state 'facet facet-name))
 
 ;;;###autoload
+(defun facet-workon-helm ()
+  "Set current facet."
+  (interactive)
+  (helm
+   :sources
+   `((name . "Facets")
+     (candidates . ,(facet-list))
+     (action . facet-workon))))
+
+;;;###autoload
 (defun facet-cd ()
   "Open dired buffer on facet directory"
   (interactive)
