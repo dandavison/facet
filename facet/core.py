@@ -169,7 +169,7 @@ class Facet:
             else:
                 style_function = jira_issue.get_style_function()
 
-        return style_function(string, bold=is_current)
+        return style_function(string, bold=is_current, always=True)
 
     def __eq__(self, other):
         return self.name == other.name

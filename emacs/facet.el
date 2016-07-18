@@ -37,7 +37,9 @@
   (let* ((rows
           (mapcar
            (lambda (line) (split-string line "\t"))
-           (split-string (s-chomp (shell-command-to-string "facet ls")) "\n")))
+           (split-string
+            (s-chomp
+             (ansi-color-apply (shell-command-to-string "facet ls"))) "\n")))
          (left-column-width
           (apply #'max (mapcar (lambda (row) (length (car row))) rows)))
          (left-column-fmt (format "%%-%ds %%s" left-column-width)))
