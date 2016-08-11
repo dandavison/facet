@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import subprocess
 from os import listdir
 from os import path
 
@@ -30,6 +31,10 @@ class Facet:
     @staticmethod
     def set_current(facet):
         state.write(facet=facet.name)
+        subprocess.check_call([
+            'touch',
+            path.join(settings.FACETS_DIR, facet.name),
+        ])
 
     @classmethod
     def get_all(cls, include_inactive=False):
@@ -40,7 +45,13 @@ class Facet:
 
     @staticmethod
     def get_all_names():
-        for name in sorted(listdir(settings.FACETS_DIR)):
+        file_names = [
+            name.decode('utf-8')
+            for name in (subprocess
+                         .check_output(['ls', '-1', '-t', settings.FACETS_DIR])
+                         .splitlines())
+        ]
+        for name in file_names:
             if not name.startswith('.'):
                 yield name
 
