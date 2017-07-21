@@ -29,6 +29,10 @@ _facet_directory() {
     __facet_complete_facets
 }
 
+_facet_notes() {
+    __facet_complete_facets
+}
+
 _facet_edit() {
     __facet_complete_facets
 }
@@ -80,6 +84,7 @@ _facet() {
         follow
         ls
         migrate
+        notes
         rm
         show
         web

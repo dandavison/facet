@@ -83,6 +83,16 @@ class Command:
         facet = self._get_facet(options)
         os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.directory])
 
+    def notes(self, options):
+        """
+        Open facet notes file
+
+        Usage:
+          notes [FACET]
+        """
+        facet = self._get_facet(options)
+        os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.notes_file])
+
     def create(self, options):
         """
         Create a facet for a JIRA issue.

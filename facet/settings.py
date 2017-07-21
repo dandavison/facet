@@ -9,6 +9,8 @@ FACETS_DIR = path.join(FACET_DIR, 'facets')
 JIRA_AUTH_FILE = path.join(FACET_DIR, 'auth.yaml')
 LOCAL_SETTINGS_FILE = path.join(FACET_DIR, 'settings.yaml')
 
+NOTES_FILE_NAME = 'notes.txt'
+
 # Set these in LOCAL_SETTINGS_FILE
 JIRA_HOST = None
 DEFAULT_REPO = None
