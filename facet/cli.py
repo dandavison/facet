@@ -31,7 +31,7 @@ class Command:
     Commands:
       cd                 cd to facet directory
       config             Display facet config
-      configure          Configure facet
+      directory          Open editor on facet directory
       create             Create a facet for a JIRA issue
       current            Display current facet
       edit               Edit facet
@@ -73,12 +73,12 @@ class Command:
         facet = self._get_facet(options)
         sys.stdout.write(open(facet.config_file).read())
 
-    def configure(self, options):
+    def directory(self, options):
         """
-        Configure facet
+        Open editor on facet directory
 
         Usage:
-          configure [FACET]
+          directory [FACET]
         """
         facet = self._get_facet(options)
         os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.directory])
