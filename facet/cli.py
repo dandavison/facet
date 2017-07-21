@@ -239,15 +239,18 @@ class Command:
 
     def workon(self, options):
         """
-        Switch facet, cd to repo and checkout branch.
+        Switch facet, cd to repo and optionally checkout branch.
 
         Usage:
           workon [FACET]
+
+        Options:
+          -c, --checkout     Also checkout facet's branch
         """
         facet = self._get_facet(options)
         Facet.set_current(facet)
         os.chdir(facet.repo)
-        if facet.branch:
+        if options.get('--checkout') and facet.branch:
             self._checkout(facet.branch)
         self._cd(facet.repo)
 
