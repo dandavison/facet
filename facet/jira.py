@@ -19,6 +19,7 @@ JIRA_STATUS2STATUS = {
     'Review': Status.under_review,
     'Closed': Status.done,
     'Reopened': Status.todo,
+    'Done': Status.done,
 }
 
 
