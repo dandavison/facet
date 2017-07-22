@@ -39,6 +39,7 @@ class Command:
       follow             Follow/unfollow a facet
       ls                 Display all facets
       migrate            Apply a patch to facet configs
+      notes              Open notes file for facet
       web                Open web page for facet
       rm                 Delete facet
       show               Display facet
