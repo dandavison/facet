@@ -1,4 +1,5 @@
 from os import environ
+from os import getenv
 from os import path
 
 import yaml
@@ -32,3 +33,6 @@ for path_var in [
     path_val = locals()[path_var]
     if path_val:
         locals()[path_var] = path.expanduser(path_val)
+
+if locals()['DEFAULT_REPO'].endswith('website') and getenv('WEBSITE'):
+    locals()['DEFAULT_REPO'] += '-' + getenv('WEBSITE')

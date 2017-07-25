@@ -23,7 +23,7 @@
    `((name . "Facets")
      (candidates . ,(facet-candidates-list))
      (action . (lambda (candidate)
-                 (shell-command (format "facet workon %s" facet-name)))))))
+                 (shell-command (format "facet workon %s" candidate)))))))
 
 ;;;###autoload
 (defun facet-cd ()

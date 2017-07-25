@@ -37,10 +37,10 @@ class Command:
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       follow             Follow/unfollow a facet
+      jira               Open JIRA issue page in a browser
       ls                 Display all facets
       migrate            Apply a patch to facet configs
       notes              Open notes file for facet
-      web                Open web page for facet
       rm                 Delete facet
       show               Display facet
       workon             Switch to a facet, cd to repo and checkout branch
@@ -214,12 +214,12 @@ class Command:
         patch = json.loads(options['PATCH'])
         facet.apply_patch(patch)
 
-    def web(self, options):
+    def jira(self, options):
         """
-        Open web page for facet
+        Open JIRA issue page in a browser.
 
         Usage:
-          web [FACET]
+          jira [FACET]
         """
         facet = self._get_facet(options)
         open_url(facet.url)

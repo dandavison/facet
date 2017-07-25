@@ -53,7 +53,7 @@ _facet_migrate() {
     __facet_complete_facets
 }
 
-_facet_web() {
+_facet_jira() {
     __facet_complete_facets
 }
 
@@ -82,12 +82,12 @@ _facet() {
         edit
         fetch
         follow
+        jira
         ls
         migrate
         notes
         rm
         show
-        web
         workon
     )
 
