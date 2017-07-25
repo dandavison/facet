@@ -100,6 +100,15 @@ class Facet:
             return self.style(self.name)
 
     @property
+    def github_url(self):
+        if not settings.GITHUB_REPO_URL:
+            return None
+        return ('{github_repo_url}/pull/{branch}'.format(
+            github_repo_url=settings.GITHUB_REPO_URL,
+            branch=self.branch,
+        ))
+
+    @property
     def jira_url(self):
         return ("https://{host}"
                 "/browse/{issue}".format(

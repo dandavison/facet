@@ -37,6 +37,7 @@ class Command:
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       follow             Follow/unfollow a facet
+      github             Open Github branch diff / PR page in a browser
       jira               Open JIRA issue page in a browser
       ls                 Display all facets
       migrate            Apply a patch to facet configs
@@ -225,6 +226,19 @@ class Command:
         url = facet.jira_url
         if not url:
             error('facet %s has no JIRA URL' % facet.name)
+        open_url(url)
+
+    def github(self, options):
+        """
+        Open Github branch diff / PR page in a browser.
+
+        Usage:
+          github [FACET]
+        """
+        facet = self._get_facet(options)
+        url = facet.github_url
+        if not url:
+            error('facet %s has no Github URL' % facet.name)
         open_url(url)
 
     def rm(self, options):

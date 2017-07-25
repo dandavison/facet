@@ -14,6 +14,7 @@ NOTES_FILE_NAME = 'notes.txt'
 
 # Set these in LOCAL_SETTINGS_FILE
 JIRA_HOST = None
+GITHUB_REPO_URL = None
 DEFAULT_REPO = None
 
 # Path to a file that facet can write shell commands to and delete. If setting
