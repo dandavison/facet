@@ -222,7 +222,10 @@ class Command:
           jira [FACET]
         """
         facet = self._get_facet(options)
-        open_url(facet.url)
+        url = facet.jira_url
+        if not url:
+            error('facet %s has no JIRA URL' % facet.name)
+        open_url(url)
 
     def rm(self, options):
         """
