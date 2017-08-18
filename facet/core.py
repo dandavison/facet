@@ -139,6 +139,10 @@ class Facet:
         return path.join(self.directory, settings.NOTES_FILE_NAME)
 
     @property
+    def pr_file(self):
+        return path.join(self.directory, 'PR.md')
+
+    @property
     def config_file(self):
         return path.join(self.directory, _CONFIG_FILE_NAME)
 

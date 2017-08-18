@@ -42,6 +42,7 @@ class Command:
       ls                 Display all facets
       migrate            Apply a patch to facet configs
       notes              Open notes file for facet
+      pr                 Open draft PR description file for facet
       rm                 Delete facet
       show               Display facet
       workon             Switch to a facet, cd to repo and checkout branch
@@ -94,6 +95,16 @@ class Command:
         """
         facet = self._get_facet(options)
         os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.notes_file])
+
+    def pr(self, options):
+        """
+        Open facet PR.md file
+
+        Usage:
+          pr [FACET]
+        """
+        facet = self._get_facet(options)
+        os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.pr_file])
 
     def create(self, options):
         """
