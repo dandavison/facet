@@ -33,6 +33,10 @@ _facet_notes() {
     __facet_complete_facets
 }
 
+_facet_pr() {
+    __facet_complete_facets
+}
+
 _facet_edit() {
     __facet_complete_facets
 }
@@ -91,6 +95,7 @@ _facet() {
         ls
         migrate
         notes
+        pr
         rm
         show
         workon
