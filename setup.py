@@ -22,6 +22,7 @@ setup(
         ],
     },
     install_requires=[
+        'aiohttp',
         'clint',
         'docopt',
         'pyyaml',

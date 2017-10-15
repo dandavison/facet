@@ -4,7 +4,7 @@ import subprocess
 from os import listdir
 from os import path
 
-import requests
+import aiohttp
 import yaml
 
 from facet import settings
@@ -76,13 +76,16 @@ class Facet:
         config.update(self.read_config())
         self.write_config(config)
 
-    def fetch(self):
+    async def fetch(self):
         if not self.jira:
             return
-        resp = requests.get(self.jira_json_url)
-        resp.raise_for_status()
+        async with aiohttp.ClientSession() as session:
+            resp = await session.get(self.jira_json_url)
+            resp.raise_for_status()
+            data = await resp.json()
         with open(self.jira_data_file, 'w') as fp:
-            dump_json(resp.json(), fp)
+            dump_json(data, fp)
+        print(self.format())
 
     def format(self):
         if self.jira:

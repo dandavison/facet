@@ -1,3 +1,4 @@
+import asyncio
 import os
 import shutil
 import subprocess
@@ -177,9 +178,11 @@ class Command:
         else:
             include_inactive = options.get('--all')
             facets = Facet.get_all(include_inactive)
-        for facet in facets:
-            facet.fetch()
-            print(facet.format())
+
+        ioloop = asyncio.get_event_loop()
+        task = asyncio.wait([facet.fetch() for facet in facets])
+        ioloop.run_until_complete(task)
+        ioloop.close()
 
     def follow(self, options):
         """
