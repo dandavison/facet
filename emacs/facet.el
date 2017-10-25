@@ -26,10 +26,14 @@
                  (shell-command (format "facet workon %s" candidate)))))))
 
 ;;;###autoload
-(defun facet-cd ()
+(defun facet-cd (&optional arg)
   "Open dired buffer on facet directory"
-  (interactive)
-  (dired (expand-file-name (facet-current-facet) (facet-facets-directory))))
+  (interactive "P")
+  (let ((facet (if arg (facet-current-facet)
+                 (helm :sources
+                       `((name . "Facets")
+                         (candidates . ,(facet-candidates-list)))))))
+    (dired (expand-file-name facet (facet-facets-directory)))))
 
 (defun facet-candidates-list ()
   "Return alist of facets
