@@ -281,7 +281,7 @@ class Command:
         Switch facet, cd to repo and optionally checkout branch.
 
         Usage:
-          workon [FACET]
+          workon [options] [FACET]
 
         Options:
           -c, --checkout     Also checkout facet's branch
