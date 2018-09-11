@@ -23,13 +23,13 @@
    `((name . "Facets")
      (candidates . ,(facet-candidates-list))
      (action . (lambda (candidate)
-                 (shell-command (format "facet workon %s" candidate)))))))
+                 (shell-command (format "facet notes %s" candidate)))))))
 
 ;;;###autoload
 (defun facet-cd (&optional arg)
   "Open dired buffer on facet directory"
   (interactive "P")
-  (let ((facet (if arg (facet-current-facet)
+  (let ((facet (if (not arg) (facet-current-facet)
                  (helm :sources
                        `((name . "Facets")
                          (candidates . ,(facet-candidates-list)))))))
