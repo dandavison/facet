@@ -136,6 +136,10 @@ class Facet:
 
     @property
     def notes_file(self):
+        for file_name in [settings.NOTES_FILE_NAME, 'notes.md', 'notes.org', 'notes.py']:
+            file_path = path.join(self.directory, file_name)
+            if path.exists(file_path):
+                return file_path
         return path.join(self.directory, settings.NOTES_FILE_NAME)
 
     @property
