@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import asyncio
 import json
 import subprocess
 from os import listdir
 from os import path
 
+import aiohttp
 import requests
 import yaml
 
@@ -77,14 +79,27 @@ class Facet:
         self.write_config(config)
 
     def fetch(self):
+        async def _fetch():
+            conn = aiohttp.TCPConnector(ssl=False)
+            async with aiohttp.ClientSession(connector=conn) as session:
+                await self._fetch_async(session)
+
+        event_loop = asyncio.new_event_loop()
+        try:
+            event_loop.run_until_complete(_fetch())
+        finally:
+            event_loop.close()
+
+    async def _fetch_async(self, session):
         if not self.jira:
             return
-        resp = requests.get(self.jira_json_url)
+        resp = await session.get(self.jira_json_url)
         resp.raise_for_status()
-        _json = resp.json()
+        _json = await resp.json()
         assert _json
         with open(self.jira_data_file, 'w') as fp:
             dump_json(_json, fp)
+        print(self.format())
 
     def format(self):
         if self.jira:

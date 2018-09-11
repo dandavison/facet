@@ -1,9 +1,11 @@
+import asyncio
+import json
 import os
 import shutil
 import subprocess
 import sys
 
-import json
+import aiohttp
 
 from facet import settings
 from facet.cli_dispatch import Dispatcher
@@ -186,9 +188,18 @@ class Command:
         else:
             include_inactive = options.get('--all')
             facets = Facet.get_all(include_inactive)
-        for facet in facets:
-            facet.fetch()
-            print(facet.format())
+
+        async def fetch_all_facets():
+            conn = aiohttp.TCPConnector(ssl=False)
+            async with aiohttp.ClientSession(connector=conn) as session:
+                coros = [facet._fetch_async(session) for facet in facets]
+                await asyncio.wait(coros)
+
+        event_loop = asyncio.new_event_loop()
+        try:
+            event_loop.run_until_complete(fetch_all_facets())
+        finally:
+            event_loop.close()
 
     def follow(self, options):
         """
