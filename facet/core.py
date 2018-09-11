@@ -121,7 +121,7 @@ class Facet:
         return ("https://{username}:{password}@{host}"
                 "/rest/api/latest/issue/{issue}".format(
                     host=settings.JIRA_HOST,
-                    issue=self.name,
+                    issue=self.jira,
                     **get_auth()
                 ))
 
