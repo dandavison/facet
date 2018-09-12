@@ -81,8 +81,10 @@ class Facet:
             return
         resp = requests.get(self.jira_json_url)
         resp.raise_for_status()
+        _json = resp.json()
+        assert _json
         with open(self.jira_data_file, 'w') as fp:
-            dump_json(resp.json(), fp)
+            dump_json(_json, fp)
 
     def format(self):
         if self.jira:
