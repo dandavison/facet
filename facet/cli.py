@@ -176,7 +176,7 @@ class Command:
         Fetch JIRA issue data for facet.
 
         Usage:
-          fetch [options]
+          fetch [FACET]
 
         Options:
           -a, --all     Fetch all facets
