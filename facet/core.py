@@ -172,7 +172,9 @@ class Facet:
         if not path.exists(self.jira_data_file):
             self.fetch()
         with open(self.jira_data_file) as fp:
-            return JiraIssue(json.load(fp))
+            _json = fp.read()
+            assert _json, f'{self.jira_data_file} is empty'
+            return JiraIssue(json.loads(_json))
 
     @property
     def branch(self):
