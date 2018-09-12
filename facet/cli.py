@@ -115,15 +115,21 @@ class Command:
 
         Options:
           -j, --jira  Create a JIRA facet.
+          -y, --yes   Just do it without asking any questions.
         """
         facet = Facet(name=options['NAME'])
         if facet.exists():
             raise ValueError("Facet already exists: '%s'" % facet.name)
 
-        jira_issue = (prompt_for_user_input('JIRA issue', facet.name)
-                      if options.get('--jira') else None)
-        repo = prompt_for_user_input('Git repo', settings.DEFAULT_REPO)
-        branch = prompt_for_user_input('Branch', facet.name)
+        jira_issue = facet.name if options.get('--jira') else None
+        repo = settings.DEFAULT_REPO
+        branch = facet.name
+
+        if not options.get('--yes'):
+            if jira_issue:
+                jira_issue = prompt_for_user_input('JIRA issue', jira_issue)
+            repo = prompt_for_user_input('Git repo', repo)
+            branch = prompt_for_user_input('Branch', branch)
 
         config = {
             key: val
@@ -133,6 +139,9 @@ class Command:
                              ('jira', jira_issue)]
             if val
         }
+
+        if options.get('--yes'):
+            print(config)
         config['follow'] = True
 
         os.mkdir(facet.directory)
