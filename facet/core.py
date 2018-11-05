@@ -45,8 +45,11 @@ class Facet:
     def get_all(cls, include_inactive=False):
         for name in cls.get_all_names():
             facet = cls(name=name)
-            if facet.is_active or include_inactive:
-                yield facet
+            try:
+                if facet.is_active or include_inactive:
+                    yield facet
+            except Exception as exc:
+                print('Error fetching %s: %s(%s)' % (facet, type(exc).__name__, exc))
 
     @staticmethod
     def get_all_names():
