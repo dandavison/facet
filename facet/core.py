@@ -26,6 +26,9 @@ class Facet:
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return f'Facet({self.name})'
+
     @classmethod
     def get_current(cls):
         return cls(name=state.read('facet'))
