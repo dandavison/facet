@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -41,7 +42,7 @@ class Command:
       follow             Follow/unfollow a facet
       github             Open Github branch diff / PR page in a browser
       jira               Open JIRA issue page in a browser
-      ls                 Display all facets
+      ls                 List facets
       migrate            Apply a patch to facet configs
       notes              Open notes file for facet
       pr                 Open draft PR description file for facet
@@ -225,10 +226,16 @@ class Command:
           ls [options]
 
         Options:
-          -a, --all     Include done and non-followed facets
+          -a --all           Include done and non-followed facets
+          -r --regex=regex   Filter to facets matching regex
         """
         include_inactive = options.get('--all')
+        regex = options.get('--regex')
+        if regex:
+            regex = '^' + regex
         for facet in Facet.get_all(include_inactive):
+            if regex and not re.match(regex, facet.name):
+                continue
             print(facet.format())
 
     def migrate(self, options, facet=None):
