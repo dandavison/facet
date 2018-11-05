@@ -15,6 +15,7 @@ class Status(Enum):
 JIRA_STATUS2STATUS = {
     'Open': Status.todo,
     'To Do': Status.todo,
+    'Groomed': Status.todo,
     'In Progress': Status.doing,
     'Review': Status.under_review,
     'Closed': Status.done,
