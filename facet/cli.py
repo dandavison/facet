@@ -211,12 +211,19 @@ class Command:
 
         Options:
           -n, --unfollow    Unfollow facet
+          -a, --all         Apply to all facets
         """
-        facet = self._get_facet(options)
-        if options.get('--unfollow'):
-            facet.unfollow()
+        if options.get('FACET'):
+            facets = [self._get_facet(options)]
         else:
-            facet.follow()
+            facets = Facet.get_all()
+
+        if options.get('--unfollow'):
+            for facet in facets:
+                facet.unfollow()
+        else:
+            for facet in facets:
+                facet.follow()
 
     def ls(self, options):
         """
