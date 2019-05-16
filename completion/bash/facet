@@ -135,3 +135,4 @@ eval "$__facet_previous_extglob_setting"
 unset __facet_previous_extglob_setting
 
 complete -F _facet facet
+complete -F _facet f
