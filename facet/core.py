@@ -51,7 +51,7 @@ class Facet:
                 if facet.is_active or include_inactive:
                     yield facet
             except Exception as exc:
-                print('Error fetching %s: %s(%s)' % (facet, type(exc).__name__, exc), file=sys.stderr)
+                warning(f'Error fetching {facet}: {type(exc).__name__}({exc})')
 
     @staticmethod
     def get_all_names():
@@ -123,10 +123,8 @@ class Facet:
                 summary = '<failed to fetch summary>'
             else:
                 summary=self.style(jira_issue.summary, color=False)
-            return '{name} {summary}'.format(
-                name=self.style(self.name),
-                summary=summary,
-            )
+            name = self.style(f'{self.name:8s}')
+            return f'{name} {summary}'
         else:
             return self.style(self.name)
 
@@ -134,18 +132,11 @@ class Facet:
     def github_url(self):
         if not settings.GITHUB_REPO_URL:
             return None
-        return ('{github_repo_url}/pull/{branch}'.format(
-            github_repo_url=settings.GITHUB_REPO_URL,
-            branch=self.branch,
-        ))
+        return f'{settings.GITHUB_REPO_URL}/pull/{self.branch}'
 
     @property
     def jira_url(self):
-        return ("https://{host}"
-                "/browse/{issue}".format(
-                    host=settings.JIRA_HOST,
-                    issue=self.name,
-                ))
+        return f'https://{settings.JIRA_HOST}/browse/{self.name}'
 
     @property
     def jira_json_url(self):

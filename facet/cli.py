@@ -332,10 +332,7 @@ class Command:
                     ['git', 'checkout', '-b', branch, 'master'],
                 )
             except subprocess.CalledProcessError as ex:
-                warning('{ex_cls}: {ex}'.format(
-                    ex_cls=type(ex).__name__,
-                    ex=ex,
-                ))
+                warning(f'{type(ex).__name__}: {ex}')
 
     def _get_facet(self, options):
         name = options.get('FACET')
