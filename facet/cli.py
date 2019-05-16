@@ -109,6 +109,16 @@ class Command:
         facet = self._get_facet(options)
         os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.pr_file])
 
+    def bump(self, options):
+        """
+        Make facet appear at top of list.
+
+        Usage:
+          bump [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.set_current()
+
     def create(self, options):
         """
         Create a facet for a JIRA issue.
