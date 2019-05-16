@@ -35,12 +35,11 @@ class Facet:
     def get_current(cls):
         return cls(name=state.read('facet'))
 
-    @staticmethod
-    def set_current(facet):
-        state.write(facet=facet.name)
+    def set_current(self):
+        state.write(facet=self.name)
         subprocess.check_call([
             'touch',
-            path.join(settings.FACETS_DIR, facet.name),
+            path.join(settings.FACETS_DIR, self.name),
         ])
 
     @classmethod

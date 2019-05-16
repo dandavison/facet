@@ -321,7 +321,7 @@ class Command:
           -c, --checkout     Also checkout facet's branch
         """
         facet = self._get_facet(options)
-        Facet.set_current(facet)
+        facet.set_current()
         os.chdir(facet.repo)
         if options.get('--checkout') and facet.branch:
             self._checkout(facet.branch)
