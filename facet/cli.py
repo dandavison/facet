@@ -176,18 +176,18 @@ class Command:
 
     def fetch(self, options):
         """
-        Fetch JIRA issue data for facet.
+        Fetch JIRA issue data for facets.
 
         Usage:
           fetch [FACET]
 
         Options:
-          -a, --all     Fetch all facets
+          --include-inactive     Include inactive facets
         """
         if options.get('FACET'):
             facets = [self._get_facet(options)]
         else:
-            include_inactive = options.get('--all')
+            include_inactive = options.get('--include-inactive')
             facets = Facet.get_all(include_inactive)
 
         async def fetch_all_facets():
