@@ -46,7 +46,7 @@ class JiraIssue:
 
     def get_style_function(self):
         return {
-            Status.todo: default_color,
+            Status.todo: colored.cyan,
             Status.doing: colored.red,
             Status.under_review: colored.yellow,
             Status.done: colored.green,
