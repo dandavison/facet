@@ -2,6 +2,7 @@
 import asyncio
 import json
 import subprocess
+import sys
 from os import listdir
 from os import path
 
@@ -16,6 +17,7 @@ from facet.utils import default_color
 from facet.utils import dump_json
 from facet.utils import dump_yaml
 from facet.utils import get_auth
+from facet.utils import warning
 
 
 _CONFIG_FILE_NAME = 'facet.yaml'
@@ -49,7 +51,7 @@ class Facet:
                 if facet.is_active or include_inactive:
                     yield facet
             except Exception as exc:
-                print('Error fetching %s: %s(%s)' % (facet, type(exc).__name__, exc))
+                print('Error fetching %s: %s(%s)' % (facet, type(exc).__name__, exc), file=sys.stderr)
 
     @staticmethod
     def get_all_names():
@@ -100,7 +102,13 @@ class Facet:
         if not self.jira:
             return
         resp = await session.get(self.jira_json_url)
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except Exception as ex:
+            print(f'Error fetching URL {self.jira_json_url}: {type(ex).__name__}: {ex}',
+                  file=sys.stderr)
+            raise
+
         _json = await resp.json()
         assert _json
         with open(self.jira_data_file, 'w') as fp:
@@ -221,7 +229,8 @@ class Facet:
         else:
             try:
                 jira_issue = self.get_jira_issue()
-            except IOError:
+            except IOError as ex:
+                warning(f'{ex.__class__.__name__}: {ex}')
                 style_function = default_color
             else:
                 style_function = jira_issue.get_style_function()
