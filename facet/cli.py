@@ -111,15 +111,18 @@ class Command:
         facet = self._get_facet(options)
         os_exec(['/bin/bash', '-c', '$EDITOR %s' % facet.pr_file])
 
-    def bump(self, options):
+    def current(self, options):
         """
-        Make facet appear at top of list.
+        Read or write current facet.
 
         Usage:
-          bump [FACET]
+          current [FACET]
         """
-        facet = self._get_facet(options)
-        facet.set_current()
+        if options.get('FACET'):
+            facet = self._get_facet(options)
+            facet.set_current()
+        facet = Facet.get_current()
+        print(facet.format())
 
     def create(self, options):
         """
@@ -167,16 +170,6 @@ class Command:
             facet.fetch()
         except IOError as ex:
             warning('%s: %s' % (type(ex).__name__, ex))
-
-    def current(self, options):
-        """
-        Display current facet.
-
-        Usage:
-          current
-        """
-        facet = Facet.get_current()
-        print(facet.format())
 
     def doing(self, options):
         """

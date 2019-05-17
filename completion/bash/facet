@@ -17,7 +17,7 @@ __facet_complete_facets() {
     COMPREPLY=( $(compgen -W "$facets" -- "$cur") )
 }
 
-_facet_bump() {
+_facet_current() {
     __facet_complete_facets
 }
 
@@ -98,7 +98,7 @@ _facet() {
     shopt -s extglob
 
     local commands=(
-        bump
+        current
         cd
         config
         create
