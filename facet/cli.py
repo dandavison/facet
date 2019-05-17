@@ -11,6 +11,7 @@ import aiohttp
 from facet import settings
 from facet.cli_dispatch import Dispatcher
 from facet.core import Facet
+from facet.core import Status
 from facet.webbrowser import open_url
 from facet.utils import append_to_prompt_commands_file
 from facet.utils import delete_prompt_commands_file
@@ -37,6 +38,7 @@ class Command:
       directory          Open editor on facet directory
       create             Create a facet for a JIRA issue
       current            Display current facet
+      done               Mark facet as Done
       edit               Edit facet
       fetch              Fetch JIRA data for facet
       follow             Follow/unfollow a facet
@@ -149,7 +151,9 @@ class Command:
             for key, val in [('name', facet.name),
                              ('repo', repo),
                              ('branch', branch),
-                             ('jira', jira_issue)]
+                             ('jira', jira_issue),
+                             ('status', Status.todo.name),
+            ]
             if val
         }
 
@@ -173,6 +177,26 @@ class Command:
         """
         facet = Facet.get_current()
         print(facet.format())
+
+    def doing(self, options):
+        """
+        Mark facet as Doing
+
+        Usage:
+          doing [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.write_config(status=Status.doing.name)
+
+    def done(self, options):
+        """
+        Mark facet as Done
+
+        Usage:
+          done [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.write_config(status=Status.done.name)
 
     def edit(self, options):
         """
@@ -220,13 +244,15 @@ class Command:
           follow [options] [FACET]
 
         Options:
-          -n, --unfollow    Unfollow facet
-          -a, --all         Apply to all facets
+          -n, --unfollow         Unfollow facet
+          -a, --all              Apply to all facets
+          --include-inactive     Include inactive facets
         """
         if options.get('FACET'):
             facets = [self._get_facet(options)]
         else:
-            facets = Facet.get_all()
+            include_inactive = options.get('--include-inactive')
+            facets = Facet.get_all(include_inactive)
 
         if options.get('--unfollow'):
             for facet in facets:
@@ -319,6 +345,16 @@ class Command:
         if not facet:
             facet = self._get_facet(options)
         print(facet.format())
+
+    def todo(self, options):
+        """
+        Mark facet as Todo
+
+        Usage:
+          todo [FACET]
+        """
+        facet = self._get_facet(options)
+        facet.write_config(status=Status.todo.name)
 
     def workon(self, options):
         """

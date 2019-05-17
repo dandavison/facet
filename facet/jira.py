@@ -1,15 +1,7 @@
-from enum import Enum
-
 from clint.textui import colored
 
+from facet.core import Status
 from facet.utils import default_color
-
-
-class Status(Enum):
-    todo = 1
-    doing = 2
-    under_review = 3
-    done = 4
 
 
 JIRA_STATUS2STATUS = {
@@ -43,11 +35,3 @@ class JiraIssue:
     @property
     def is_done(self):
         return self.status == Status.done
-
-    def get_style_function(self):
-        return {
-            Status.todo: colored.cyan,
-            Status.doing: colored.red,
-            Status.under_review: colored.yellow,
-            Status.done: colored.green,
-        }[self.status]

@@ -3,16 +3,17 @@ import asyncio
 import json
 import subprocess
 import sys
+from enum import Enum
 from os import listdir
 from os import path
 
 import aiohttp
 import requests
 import yaml
+from clint.textui import colored
 
 from facet import settings
 from facet import state
-from facet.jira import JiraIssue
 from facet.utils import default_color
 from facet.utils import dump_json
 from facet.utils import dump_yaml
@@ -22,6 +23,13 @@ from facet.utils import warning
 
 _CONFIG_FILE_NAME = 'facet.yaml'
 _JIRA_DATA_FILE_NAME = 'jira.json'
+
+
+class Status(Enum):
+    todo = 1
+    doing = 2
+    under_review = 3
+    done = 4
 
 
 class Facet:
@@ -177,7 +185,12 @@ class Facet:
 
     @property
     def is_active(self):
-        return self.read_config('follow') and not self.is_done
+        return self.read_config('follow')
+
+    @property
+    def status(self):
+        status_name = self.read_config('status')
+        return getattr(Status, status_name) if status_name else None
 
     def follow(self):
         self.write_config(follow=True)
@@ -195,6 +208,7 @@ class Facet:
         with open(self.jira_data_file) as fp:
             _json = fp.read()
             assert _json, f'{self.jira_data_file} is empty'
+            from facet.jira import JiraIssue
             return JiraIssue(json.loads(_json))
 
     @property
@@ -210,12 +224,15 @@ class Facet:
         if self.jira:
             return self.get_jira_issue().is_done
         else:
-            return None
+            return self.read_config('status') == Status.done.name
 
     def style(self, string, color=True):
         is_current = self == self.get_current()
-        if not color or not self.jira:
+        if not color:
             style_function = default_color
+        if not self.jira:
+            status = self.status
+            style_function = get_style_function(self.status) if self.status else default_color
         else:
             try:
                 jira_issue = self.get_jira_issue()
@@ -223,9 +240,18 @@ class Facet:
                 warning(f'{ex.__class__.__name__}: {ex}')
                 style_function = default_color
             else:
-                style_function = jira_issue.get_style_function()
+                style_function = get_style_function(jira_issue.status)
 
         return style_function(string, bold=is_current, always=True)
 
     def __eq__(self, other):
         return self.name == other.name
+
+
+def get_style_function(status):
+    return {
+        Status.todo: colored.cyan,
+        Status.doing: colored.red,
+        Status.under_review: colored.yellow,
+        Status.done: colored.green,
+    }[status]
