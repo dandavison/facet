@@ -67,7 +67,7 @@ ptyprocess==0.6.0
 py==1.7.0
 pyasn1==0.4.3
 pydot==1.4.1
-Pygments==2.2.0
+Pygments==2.7.4
 pygraphviz==1.5
 pyparsing==2.3.0
 PyQt5==5.11.3
